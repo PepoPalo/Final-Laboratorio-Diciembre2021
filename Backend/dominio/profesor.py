@@ -3,8 +3,8 @@ from sqlalchemy import Column, Integer, String,Numeric, Float, Date, ForeignKey,
 from datos import db
 
 class Linea(db.Model):
-    __tablename__ = 'lineas'    
+    __tablename__ = 'profesores'    
     id= Column(Integer(), primary_key=True, autoincrement=True)
-    numero = Column(String(), nullable=False)
-    estado = Column(String(), nullable=False)
-    activa =  Column(Boolean(True), nullable=False)
+    nombre = Column(String(), nullable=False)
+    direccion = Column(String(), nullable=False)
+    
