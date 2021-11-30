@@ -43,41 +43,26 @@ export default function CursoListado() {
 
     return (
         <>
-            <div className="bg-white rounded-bottom rounded-right">
-                <div>
-                    <Link to="/cursos/nuevo" className="btn btn-primary my-3">Nuevo</Link>
-                    <form >
-                    {/* <div className="row"> */}
-                        <label htmlFor="start">Desde:</label>
-                        <input 
-                            type="date"
-                            min="2018-01-01" 
-                            max="2023-12-31" 
-                            // onChange={(event) => handleOnChange(event, 'desde')}
-                        >
-                        </input>
-
-                        <label htmlFor="start">Hasta:</label>
-                        <input 
-                            type="date"
-                            min="2018-01-01" 
-                            max="2023-12-31" 
-                            // onChange={(event) => handleOnChange(event, 'hasta')}
-                            >
-                        </input>
-                        
-                        {/* <button onClick={(event) => getFiltradas(event)}> BUSCAR</button> */}
-                    {/* </div> */}
-                </form>
-                </div>
-                <table className="table table-hover">
-                    <thead className="bg-info">
+            <div className="bg-white row">
+                <nav className="col-md-12 px-0 mb-0" aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item active" aria-current="page">Cursos</li>
+                    </ol>
+                </nav>
+                <h1 className="card-header col-md-12">
+                    Cursos
+                    <Link to="/cursos/nuevo" className="btn btn-outline-dark btn-sm ml-5 col-md-1">Crear</Link>
+                </h1>
+            </div>
+            <div className="bg-white row">
+                <table className="table">
+                    <thead className="table-secondary">
                         <tr>
                         <th scope="col">ID</th>
                         <th className="text-center" scope="col">Nombre</th>
                         <th className="text-center" scope="col">Desde</th>
                         <th className="text-center" scope="col">Hasta</th>
-                        <th className="text-center" scope="col">Acciones</th>
+                        <th className="text-center" scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,8 +93,8 @@ export default function CursoListado() {
                         )}
                     </tbody>
                 </table>
-
             </div>
+            
         </>
     )
 }

@@ -45,16 +45,24 @@ export default function AlumnoListado() {
 
     return (
         <>
-            <div className="bg-white rounded-bottom rounded-right">
-                <div>
-                    <Link to='/alumnos/nueva' className="btn btn-primary my-3">Nuevo</Link>
-                </div>
-                <table className="table table-hover">
-                    <thead className="bg-info">
+            <div className="bg-white row">
+                <nav className="col-md-12 px-0 mb-0" aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item active" aria-current="page">Alumnos</li>
+                    </ol>
+                </nav>
+                <h1 className="card-header col-md-12">
+                    Alumnos
+                    <Link to="/alumnos/crear" className="btn btn-outline-dark btn-sm ml-5 col-md-1">Crear</Link>
+                </h1>
+            </div>
+            <div className="bg-white row">
+                <table className="table">
+                    <thead className="table-secondary">
                         <tr>
-                        <th className="text-center" scope="col">Libreta Estudiantil</th>
+                        <th className="justify-content-start" scope="col">Libreta Estudiantil</th>
                         <th className="text-center" scope="col">Alumno</th>
-                        <th className="text-center" scope="col">Acciones</th>
+                        <th className="text-center" scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,7 +70,7 @@ export default function AlumnoListado() {
                             lista.map(alumno => (
                                 <>
                                 <tr key={alumno.id}>
-                                    <th className="text-center">{alumno.id}</th>
+                                    <th >{alumno.id}</th>
                                     <td className="text-center">{alumno.nombre}</td>
                                     <td className="text-center">
                                         <Link className="btn btn-outline-primary" to={"/alumnos/" + alumno.id}>Editar</Link> &nbsp;
@@ -80,7 +88,6 @@ export default function AlumnoListado() {
                         )}
                     </tbody>
                 </table>
-
             </div>
         </>
     )
