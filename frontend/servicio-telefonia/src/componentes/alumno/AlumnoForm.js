@@ -9,7 +9,7 @@ var lineap = {
     activo: 'True'
 }
 
-export default function LineaForm(){
+export default function AlumnoForm(){
     const history = useHistory()
     const { id } = useParams()
     const [linea, setLinea] = useState({

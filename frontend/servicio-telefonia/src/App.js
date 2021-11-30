@@ -1,102 +1,81 @@
 import './App.css';
 import { Link, Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
-import ClienteForm from './componentes/cliente/ClienteForm';
-import ClienteListado from './componentes/cliente/ClienteListado';
+import AlumnoForm from './componentes/alumno/AlumnoForm';
+import AlumnoListado from './componentes/alumno/AlumnoListado';
 
-import EquipoForm from './componentes/equipo/EquipoForm';
-import EquipoListado from './componentes/equipo/EquipoListado';
+import CursoAlumnoListado from './componentes/curso/CursoAlumnoListado';
+import CursoListado from './componentes/curso/CursoListado';
 
-import LineaForm from './componentes/linea/LineaForm';
-import LineaListado from './componentes/linea/LineaListado';
+import ProfesorListado from './componentes/maestro/ProfesorListado';
 
 import PlanForm from './componentes/plan/PlanForm';
 import PlanListado from './componentes/plan/PlanListado';
-import ClienteFicha from './componentes/cliente/ClienteFicha';
 import LepForm from './componentes/lep/LepForm';
 import LepListado from './componentes/lep/LepListado';
 
 
 export default function App() {
   return (
-    <div className="container bg-transparent">
+    <div className="container" >
       <Router>
-        <div className="App mt-3">
-          <ul className="nav nav-tabs" id="myTab" role="tablist">
-            <li className="nav-item rounded-top" id="fondo" role="presentation">
-              <Link 
-                className="nav-link active" 
-                id="cliente-tab" 
-                data-toggle="tab"
-                role="tab" 
-                aria-controls="cliente" 
-                aria-selected="true" 
-                to="/clientes">Clientes
-              </Link>
-            </li>
-            <li className="nav-item rounded-top" id="fondo" role="presentation">
+        <div className="App mt-3 card">
+          <ul className="nav nav-pills nav-fill justify-content-center" id="pills-tab" role="tablist">
+            <li className="nav-item" role="presentation">
               <Link 
                 className="nav-link" 
-                id="equipo-tab" 
-                data-toggle="tab"
+                id="id-alumnos-tab" 
+                data-toggle="pill" 
                 role="tab" 
-                aria-controls="equipo" 
+                aria-controls="pills-alumnos" 
                 aria-selected="false" 
-                to="/equipos">Equipos
+                to="/alumnos">Alumnos
+              </Link>
+            </li>
+            <li className="nav-item" role="presentation">
+              <Link 
+                className="nav-link"
+                id="id-profesores-tab" 
+                data-toggle="pill" 
+                role="tab" 
+                aria-controls="pills-profesores" 
+                aria-selected="false" 
+                to="/profesores">Profesores
               </Link>
             </li>
 
-            <li className="nav-item rounded-top" id="fondo" role="presentation">
+            <li className="nav-item" role="presentation">
               <Link 
-                className="nav-link" 
-                id="linea-tab" 
-                data-toggle="tab"
+                className="nav-link"
+                id="id-cursos-tab" 
+                data-toggle="pill" 
                 role="tab" 
-                aria-controls="linea" 
+                aria-controls="pills-cursos" 
                 aria-selected="false" 
-                to="/lineas">Lineas
+                to="/cursos">Cursos
               </Link>
             </li>
-
-            <li className="nav-item rounded-top" id="fondo" role="presentation">
-              <Link 
-                className="nav-link" 
-                id="plan-tab" 
-                data-toggle="tab"
-                role="tab" 
-                aria-controls="plan" 
-                aria-selected="false" 
-                to="/planes">Planes
-              </Link>
-            </li>
-
           </ul>
         </div>
 
         <Switch>
 
-          {/* Clientes */}
-          <Route path="/clientes/nuevo" component={ClienteForm}></Route>
-          <Route path="/clientes/ficha/:id" component={ClienteFicha}></Route>
-          <Route path="/clientes/:id" component={ClienteForm}></Route>
-          <Route path="/clientes" component={ClienteListado}></Route>
+          {/* Alumnos */}
+          <Route path="/alumnos/nuevo" component={AlumnoForm}></Route>
+          <Route path="/alumnos/:id" component={AlumnoForm}></Route>
+          <Route path="/alumnos" component={AlumnoListado}></Route>
 
           {/* LEP */}
           <Route path="/lep/nuevo/:id" component={LepForm}></Route>
-          <Route path="/lep/<int:cliente>/<int:id>" component={LepForm}></Route>
+          <Route path="/lep/<int:alumno>/<int:id>" component={LepForm}></Route>
           <Route path="/leps/:id" component={LepListado} ></Route>
 
           {/* Equipos */}
-          <Route path="/equipos/nuevo" component={EquipoForm}></Route>
-          <Route path="/equipos/:imei" component={EquipoForm} ></Route>
-          <Route path="/equipos" component={EquipoListado}></Route>
+          <Route path="/cursos/:id/alumnos/" component={CursoAlumnoListado}></Route>
+          <Route path="/cursos" component={CursoListado}></Route>
 
           {/* Linea */}
-          <Route path="/lineas/nueva" component={LineaForm}></Route>
-          <Route path="/lineas/:id" component={LineaForm}></Route>
-          <Route path="/lineas/buscar/:desde/:hasta" component={LineaListado}></Route>
-          <Route path="/lineas/buscar/:desde/:hasta/:mozo" component={LineaListado}></Route>
-          <Route path="/lineas" component={LineaListado}></Route>
+          <Route path="/profesores" component={ProfesorListado}></Route>
 
           {/* Planes */}
           <Route path="/planes/nuevo" component={PlanForm}></Route>
