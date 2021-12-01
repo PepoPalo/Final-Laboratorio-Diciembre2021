@@ -8,11 +8,12 @@ class Plan(db.Model):
     nombre = Column(String(), nullable=False)
     fecha_ini = Column(Date(),  nullable=False)
     fecha_fin = Column(Date(),  nullable=False)
-    id_prof_tit = Column(Integer(),  nullable=False)
-    id_prof_adj = Column(Integer(),  nullable=True)
+    id_prof_tit = Column(Integer(),  ForeignKey('profesor.id'), primary_key=true)
+    id_prof_adj = Column(Integer(),  ForeignKey('profesor.id'))
     cupo_total = Column(Integer(),  nullable=False)
-    ForeignKeyConstraint(['id_prof_tit'], ['profesor.id'])
-    ForeignKeyConstraint(['id_prof_adj'], ['profesor.id'])
+    prof_tit = relationship("Profesor", backref="cursos",lazy='joined')
+    prof_adj = relationship("Profesor", backref="cursos",lazy='joined')
+
 
 
 

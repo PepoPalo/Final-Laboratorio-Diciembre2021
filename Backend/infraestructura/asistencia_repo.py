@@ -14,13 +14,13 @@ class AsistenciaRepo():
     def get_by_id(self,id):
         return Asistencia.query.get(id)
 
-    def baja(self,id):
-        m = Asistencia.query.get(id)
-        if m:
-            m.activo =False
-            db.session.commit()
-            return True
-        return False
+    # def baja(self,id):
+    #     m = Asistencia.query.get(id)
+    #     if m:
+    #         m.activo =False
+    #         db.session.commit()
+    #         return True
+    #     return False
 
     def buscarPorCurso(self, desde, hasta, curso):
         return Asistencia.query.filter(
