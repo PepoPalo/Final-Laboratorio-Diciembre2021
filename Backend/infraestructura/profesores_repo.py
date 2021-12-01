@@ -26,12 +26,11 @@ class ProfesoresRepo():
         Profesor = Profesor.query.get(id)
         if Profesor:
             Profesor.nombre = data['nombre']
-            Profesor.costo_por_mes = data['costo_por_mes']
-            Profesor.cant_llamadas = data['cant_llamadas']
-            Profesor.cant_mensajes = data['cant_mensajes']
-            Profesor.cant_gigas = data['cant_gigas']
-            Profesor.tipo = data['tipo']
-            Profesor.estaActivo = data['estaActivo']
+            Profesor.direccion = data['direccion']
+            Profesor.titulo = data[titulo]
             db.session.commit()
             return True
         return False
+        ## hacer un join con cursos aca?
+
+

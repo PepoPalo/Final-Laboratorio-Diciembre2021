@@ -6,5 +6,6 @@ class Linea(db.Model):
     __tablename__ = 'profesores'    
     id= Column(Integer(), primary_key=True, autoincrement=True)
     nombre = Column(String(), nullable=False)
+    titulo = Column(String(), nullable=False)
     direccion = Column(String(), nullable=False)
     
