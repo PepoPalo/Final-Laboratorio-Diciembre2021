@@ -2,7 +2,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey, Boolean
 from datos import db
 
-class ClienteLep(db.Model):
+class Asistencia(db.Model):
     __tablename__ = 'Asistencia'    
     id= Column(Integer(), primary_key=True, autoincrement=True)
     alumno_id = Column(Integer(), nullable=False)

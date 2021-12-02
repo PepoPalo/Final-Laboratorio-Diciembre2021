@@ -8,12 +8,8 @@ repo = AlumnoMateriaRepo()
 
 nsAlumnoMateria = Namespace('AlumnoMateria', description= 'Administrador de linea-equipo-plan')
 modeloAlumnoMateriaSinNum = Model('DetalleSinNumero',{
-    'plan_id': fields.Integer(),
-    'linea_id': fields.Integer(),
-    'equipo_id': fields.Integer(),
-    'fecha_ini': fields.Date(),
-    'fecha_fin': fields.Date(),
-    'plan_costo': fields.Float()
+    'curso_id': fields.Integer(),
+    'alumno_id': fields.Integer()
 })
 
 modeloAlumnoMateria = modeloAlumnoMateriaSinNum.clone('AlumnoMateria', {
@@ -29,12 +25,10 @@ nsAlumnoMateria.models[modeloBusqueda.name] = modeloBusqueda
 
 
 nuevoAlumnoMateriaParser = reqparse.RequestParser(bundle_errors=True)
-nuevoAlumnoMateriaParser.add_argument('plan_id', type=int, required=True)
-nuevoAlumnoMateriaParser.add_argument('linea_id', type=int, required=True)
-nuevoAlumnoMateriaParser.add_argument('equipo_id', type=int, required=True)
+nuevoAlumnoMateriaParser.add_argument('curso_id', type=int, required=True)
+nuevoAlumnoMateriaParser.add_argument('alumno_id', type=int, required=True)
 nuevoAlumnoMateriaParser.add_argument('fecha_ini', type=date, required=True)
 nuevoAlumnoMateriaParser.add_argument('fecha_fin', type=date, required=False)
-nuevoAlumnoMateriaParser.add_argument('plan_costo', type=float, required=True)
 
 editarAlumnoMateriaParser = nuevoAlumnoMateriaParser.copy()
 editarAlumnoMateriaParser.add_argument('id', type=int, required=True)
@@ -56,13 +50,13 @@ class AlumnoMateriaResource(Resource):
             return df, 201
         abort(500)
 
-@nsAlumnoMateria.route('/<int:cliente>')
+@nsAlumnoMateria.route('/<int:alumno>')
 class AlumnoMateriaResource(Resource):
     @nsAlumnoMateria.marshal_list_with(modeloAlumnoMateria)
-    def get(self, cliente):
-        return repo.get_all(cliente)
+    def get(self, alumno):
+        return repo.get_all(alumno)
 
-@nsAlumnoMateria.route('/<int:cliente>/<int:id>')
+@nsAlumnoMateria.route('/<int:alumno>/<int:id>')
 class AlumnoMateriaResource(Resource):
     @nsAlumnoMateria.marshal_with(modeloAlumnoMateria)
     def get(self, id):
@@ -75,7 +69,7 @@ class AlumnoMateriaResource(Resource):
     def put(self, id):
         data = editarAlumnoMateriaParser.parse_args()
         if repo.modificar(id,data):
-            return 'Relacion linea-equipo-plan modificada', 200
+            return 'Relacion alumno-materia modificada', 200
         abort(404)
 @nsAlumnoMateria.route('/baja/<int:id>')
 class AlumnoMateriaResource(Resource):
@@ -83,15 +77,14 @@ class AlumnoMateriaResource(Resource):
 
     def put(self, id):
         if repo.baja(id):
-            #baja en cliente_AlumnoMateria           
-            repoAlumnoMateria.bajaAlumnoMateria(id)
-            return 'Relacion linea-equipo-plan dada de Baja', 200            
+            repoAlumnoMateria.baja(id)
+            return 'Relacion alumno-materia eliminada', 200            
         abort(400)
 @nsAlumnoMateria.route('/buscar/<string:desde>/<string:hasta>/<int:id>')
 class AlumnoMateriaResource(Resource):
     @nsAlumnoMateria.marshal_list_with(modeloAlumnoMateria)
     def get(self, desde, hasta,id):
-        l = repoAlumnoMateria.buscar_by_cliente(id)
+        l = repoAlumnoMateria.buscar(id)
         if l:
             
              a= []
@@ -105,7 +98,7 @@ class AlumnoMateriaResource(Resource):
 class AlumnoMateriaResource(Resource):
     @nsAlumnoMateria.marshal_list_with(modeloAlumnoMateria)
     def get(self, desde, hasta):
-        l = repo.traer_activos(desde,hasta)
+        l = repo.buscar(desde,hasta)
         if l:
           return l,200
         abort(404)

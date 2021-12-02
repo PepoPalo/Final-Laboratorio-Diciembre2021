@@ -1,28 +1,28 @@
 from flask import abort
 from flask_restx import Resource, Namespace, Model, fields, reqparse
-from infraestructura.equipos_repo import EquiposRepo
+from infraestructura.Cursos_repo import CursosRepo
 from infraestructura.clientes_lep_repo import ClientesLepRepo
-from infraestructura.lineaequipoplan_repo import LineaEquipoPlanRepo
+from infraestructura.lineaCursoplan_repo import LineaCursoPlanRepo
 
 from flask_restx.inputs import date
 
-repo = EquiposRepo()
-repoLepCliente = ClientesLepRepo()
-repoLep= LineaEquipoPlanRepo()
+repo = CursosRepo()
 
 
-nsEquipo = Namespace('equipos', description='Administrador de equipos')
 
-modeloEquipoSinID = Model('EquipoSinCod',{
-    'marca': fields.String(),
-    'modelo': fields.String(),
-    'estado': fields.String(),
-    'fecha_ingreso': fields.Date(),
-    'activo': fields.Boolean()
+nsCurso = Namespace('Cursos', description='Administrador de Cursos')
+
+modeloCursoSinID = Model('CursoSinCod',{
+    'nombre': fields.String(),
+    'cupo_total': fields.Integer(),
+    'fecha_ini': fields.Date(),
+    'fecha_fin': fields.Date(),
+    'id_prof_tit': fields.Integer(),
+    'id_prof_adj': fields.Integer()
 })
 
-modeloEquipo = modeloEquipoSinID.clone('Equipo',{
-    'imei': fields.Integer(),
+modeloCurso = modeloCursoSinID.clone('Curso',{
+    'id': fields.Integer(),
 
 })
 modeloBusqueda = Model('BusquedaFechas', {
@@ -30,42 +30,45 @@ modeloBusqueda = Model('BusquedaFechas', {
     'hasta': fields.Date()
 })
 
-nsEquipo.models[modeloEquipo.name] = modeloEquipo
-nsEquipo.models[modeloEquipoSinID.name] = modeloEquipoSinID
-nsEquipo.models[modeloBusqueda.name] = modeloBusqueda
+nsCurso.models[modeloCurso.name] = modeloCurso
+nsCurso.models[modeloCursoSinID.name] = modeloCursoSinID
+nsCurso.models[modeloBusqueda.name] = modeloBusqueda
 
-nuevoEquipoParser = reqparse.RequestParser(bundle_errors=True)
-nuevoEquipoParser.add_argument('marca', type=str, required=True)
-nuevoEquipoParser.add_argument('modelo', type=str, required=True)
-nuevoEquipoParser.add_argument('estado', type=str, required=True)
-nuevoEquipoParser.add_argument('fecha_ingreso', type=date, required=True)
-nuevoEquipoParser.add_argument('activo', type=bool, required=False, default=True)
-
-editarEquipoParser = nuevoEquipoParser.copy()
-editarEquipoParser.add_argument('imei',type=int, required=True)
+nuevoCursoParser = reqparse.RequestParser(bundle_errors=True)
+nuevoCursoParser.add_argument('nombre', type=str, required=True)
+nuevoCursoParser.add_argument('cupo_total', type=int, required=True)
+nuevoCursoParser.add_argument('fecha_ini', type=date, required=True)
+nuevoCursoParser.add_argument('fecha_fin', type=date, required=True)
+nuevoCursoParser.add_argument('id_prof_tit', type=int, required=True)
+nuevoCursoParser.add_argument('id_prof_adj', type=int, required=True)
 
 
-buscarEquiposParser = reqparse.RequestParser(bundle_errors=True)
-buscarEquiposParser.add_argument('desde', type=str, required=True)
-buscarEquiposParser.add_argument('hasta', type=str, required=True)
-@nsEquipo.route('/')
-class EquipoResource(Resource):
-    @nsEquipo.marshal_list_with(modeloEquipo)
+
+editarCursoParser = nuevoCursoParser.copy()
+editarCursoParser.add_argument('id',type=int, required=True)
+
+
+buscarCursosParser = reqparse.RequestParser(bundle_errors=True)
+buscarCursosParser.add_argument('desde', type=str, required=True)
+buscarCursosParser.add_argument('hasta', type=str, required=True)
+@nsCurso.route('/')
+class CursoResource(Resource):
+    @nsCurso.marshal_list_with(modeloCurso)
     def get(self):
         return repo.get_all()
 
-    @nsEquipo.expect(modeloEquipoSinID)
-    @nsEquipo.marshal_with(modeloEquipo)
+    @nsCurso.expect(modeloCursoSinID)
+    @nsCurso.marshal_with(modeloCurso)
     def post(self):
-        data = nuevoEquipoParser.parse_args()
+        data = nuevoCursoParser.parse_args()
         p = repo.agregar(data)
         if p:
             return p, 200
         abort(500)
 
-@nsEquipo.route('/<int:id>')
-class EquipoResource(Resource):
-    @nsEquipo.marshal_with(modeloEquipo)
+@nsCurso.route('/<int:id>')
+class CursoResource(Resource):
+    @nsCurso.marshal_with(modeloCurso)
     def get(self, id):
         p = repo.get_by_id(id)
         if p:
@@ -74,35 +77,29 @@ class EquipoResource(Resource):
     
     
     
-    @nsEquipo.expect(modeloEquipo)
+    @nsCurso.expect(modeloCurso)
     def put(self, id):
-        data = editarEquipoParser.parse_args()
+        data = editarCursoParser.parse_args()
         if repo.modificar(id,data):
-            return 'Equipo actualizado', 200
+            return 'Curso actualizado', 200
         abort(404)
    
 
-@nsEquipo.route('/buscar/<string:desde>/<string:hasta>/')
-class EquipoResource(Resource):
-    @nsEquipo.marshal_list_with(modeloEquipo)
+@nsCurso.route('/buscar/<string:desde>/<string:hasta>/')
+class CursoResource(Resource):
+    @nsCurso.marshal_list_with(modeloCurso)
     def get(self, desde, hasta):
         l = repo.buscar(desde, hasta)
         if l:
             return l, 200
         abort(404)
-@nsEquipo.route('/baja/<int:id>')
-class EquipoResource(Resource):
-    @nsEquipo.expect(modeloEquipo)
+@nsCurso.route('/baja/<int:id>')
+class CursoResource(Resource):
+    @nsCurso.expect(modeloCurso)
 
     def put(self, id):
         if repo.baja(id):
-            #baja en linea equipo plan
-            repoLep.baja_by_equipo(id)
-            #busco pa dar de baja en cliente-lep
-            lep =repoLep.buscar_by_equipo(id)
-            #baja en cliente-lep
-            if lep:
-             repoLepCliente.bajalep(lep.id)
-            return 'Equipo dado de Baja', 200            
+          
+            return 'Curso dado de Baja', 200            
         abort(400)
         

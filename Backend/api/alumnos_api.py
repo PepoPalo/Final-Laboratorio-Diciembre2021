@@ -14,29 +14,25 @@ modeloAlumnoSinID = Model('AlumnoSinID',{
     'direccion': fields.String(),
     'sexo':fields.String(),
     'edad':fields.Integer(),
-    'fecha_ingreso':fields.Date(),
-    'activo':fields.Boolean()
-})
+    })
 
 modeloAlumno = modeloAlumnoSinID.clone('Alumno',{
     'id': fields.Integer()
 })
 
-modeloBusqueda = Model('BusquedaFechas', {
-    'desde': fields.Date(),
-    'hasta': fields.Date()
-})
+# modeloBusqueda = Model('BusquedaFechas', {
+#     'desde': fields.Date(),
+#     'hasta': fields.Date()
+# })
 nsAlumno.models[modeloAlumno.name] = modeloAlumno
 nsAlumno.models[modeloAlumnoSinID.name] = modeloAlumnoSinID
-nsAlumno.models[modeloBusqueda.name] = modeloBusqueda
+# nsAlumno.models[modeloBusqueda.name] = modeloBusqueda
 
 nuevoAlumnoParser = reqparse.RequestParser(bundle_errors=True)
 nuevoAlumnoParser.add_argument('nombre', type=str, required=True)
 nuevoAlumnoParser.add_argument('direccion', type=str, required=True)
 nuevoAlumnoParser.add_argument('sexo', type=str, required=True)
-nuevoAlumnoParser.add_argument('fecha_ingreso', type=date, required=True)
 nuevoAlumnoParser.add_argument('edad', type=int, required=True)
-nuevoAlumnoParser.add_argument('activo', type=bool, required=True)
 
 editarAlumnoParser = nuevoAlumnoParser.copy()
 editarAlumnoParser.add_argument('id', type=int, required=True)
@@ -75,18 +71,18 @@ class AlumnoResource(Resource):
             return 'Alumno actualizado', 200
         abort(404)
 
-@nsAlumno.route('/buscar/<string:desde>/<string:hasta>/')
-class AlumnoResource(Resource):
-    @nsAlumno.marshal_list_with(modeloAlumno)
-    def get(self, desde, hasta):
-        l = repoLep.buscar(desde, hasta)
-        if l:
-             a = []
-             for x in l:
-              h = repo.get_by_id(x.Alumno_id)
-             a.append(h)
-             return l, 200
-        abort(404)
+# @nsAlumno.route('/buscar/<string:desde>/<string:hasta>/')
+# class AlumnoResource(Resource):
+#     @nsAlumno.marshal_list_with(modeloAlumno)
+#     def get(self, desde, hasta):
+#         l = repoLep.buscar(desde, hasta)
+#         if l:
+#              a = []
+#              for x in l:
+#               h = repo.get_by_id(x.Alumno_id)
+#              a.append(h)
+#              return l, 200
+#         abort(404)
 
 @nsAlumno.route('/baja/<int:id>')
 class AlumnoResource(Resource):

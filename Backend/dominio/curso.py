@@ -2,7 +2,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Boolean, Float, Integer, String, Numeric, Date
 from datos import db
 
-class Plan(db.Model):
+class Curso(db.Model):
     __tablename__ = 'cursos'
     id = Column(Integer(), primary_key=True, autoincrement=True)
     nombre = Column(String(), nullable=False)
