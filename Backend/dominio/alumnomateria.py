@@ -8,7 +8,7 @@ class AlumnoMateria(db.Model):
         db.UniqueConstraint('curso_id', 'alumno_id', name='unique_curso_alumno'),
     )
     id = Column(Integer(), primary_key=True, autoincrement=True)
-    curso_id = Column(Integer, ForeignKeu('curso.id'))
+    curso_id = Column(Integer, ForeignKey('curso.id'))
     alumno_id = Column(Integer,  ForeignKey('alumno.id'))
     curso = relationship("Curso", backref="alumno_materia",lazy='joined')
     alumno = relationship("Alumno", backref="alumno_materia",lazy='joined')

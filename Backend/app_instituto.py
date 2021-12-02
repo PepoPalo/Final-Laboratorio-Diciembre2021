@@ -3,13 +3,13 @@ from flask_restx import Api
 from flask_cors import CORS
 
 from datos import db
-from api.clientes_api import nsCliente
-from api.equipos_api import nsEquipo
-from api.lineas_api import nsLinea
-from api.lineaequipoplan_api import nsLEP
-from api.planes_api import nsPlan
-from api.cliente_lep_api import nsclienteLEP
 
+from api.profesores_api import nsProfesor
+from api.alumno_materia_api import nsAlumnoMateria
+from api.cursos_api import nsCurso
+
+from api.asistencia_api import nsAsistencia
+from api.alumnos_api import nsAlumno
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Yegua2020@localhost/Instituto"
 
@@ -22,12 +22,13 @@ with app.app_context():
 
 api = Api(app, version='1.0.beta', title='Instituto', description='Administracion de Instituto de Enseñanza')
 
-api.add_namespace(nsCliente)
-api.add_namespace(nsEquipo)
-api.add_namespace(nsLinea) 
-api.add_namespace(nsLEP)
-api.add_namespace(nsPlan)
-api.add_namespace(nsclienteLEP)
+
+# api.add_namespace(nsAsistencia)
+# api.add_namespace(nsAlumno)
+# api.add_namespace(nsCurso)
+api.add_namespace(nsProfesor) 
+
+api.add_namespace(nsAlumnoMateria)
 
 if __name__ == '__main__':
     app.run()

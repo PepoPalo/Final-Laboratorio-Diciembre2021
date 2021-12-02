@@ -8,4 +8,4 @@ class Linea(db.Model):
     nombre = Column(String(), nullable=False)
     titulo = Column(String(), nullable=False)
     direccion = Column(String(), nullable=False)
-    
+    cursos = relationship("Curso", backref="profesores",lazy='joined')
