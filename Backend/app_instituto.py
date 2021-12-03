@@ -7,7 +7,7 @@ from datos import db
 from api.profesores_api import nsProfesor
 from api.alumno_materia_api import nsAlumnoMateria
 from api.cursos_api import nsCurso
-
+from api.asistencia_api import nsAsistencia
 # from api.asistencia_api import nsAsistencia
 from api.alumnos_api import nsAlumno
 app = Flask(__name__)
@@ -23,7 +23,7 @@ with app.app_context():
 api = Api(app, version='1.0.beta', title='Instituto', description='Administracion de Instituto de Enseñanza')
 
 
-# api.add_namespace(nsAsistencia)
+api.add_namespace(nsAsistencia)
 api.add_namespace(nsAlumno)
 api.add_namespace(nsCurso)
 api.add_namespace(nsProfesor) 

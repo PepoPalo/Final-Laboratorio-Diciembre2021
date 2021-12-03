@@ -1,6 +1,7 @@
 from flask import abort
 from flask_restx import Resource, Namespace, Model, fields, reqparse
 from infraestructura.alumnos_repo import AlumnosRepo
+from api.cursos_api import modeloCurso
 
 from flask_restx.inputs import date
 
@@ -14,10 +15,12 @@ modeloAlumnoSinID = Model('AlumnoSinID',{
     'direccion': fields.String(),
     'sexo':fields.String(),
     'edad':fields.Integer(),
+    'fecha_baja': fields.Date()
     })
 
 modeloAlumno = modeloAlumnoSinID.clone('Alumno',{
-    'id': fields.Integer()
+    'id': fields.Integer(),
+    'cursos': fields.Nested(modeloCurso, skip_none=True)
 })
 
 # modeloBusqueda = Model('BusquedaFechas', {
@@ -33,17 +36,21 @@ nuevoAlumnoParser.add_argument('nombre', type=str, required=True)
 nuevoAlumnoParser.add_argument('direccion', type=str, required=True)
 nuevoAlumnoParser.add_argument('sexo', type=str, required=True)
 nuevoAlumnoParser.add_argument('edad', type=int, required=True)
+nuevoAlumnoParser.add_argument('fecha_baja', type=date, required=True)
 
 editarAlumnoParser = nuevoAlumnoParser.copy()
 editarAlumnoParser.add_argument('id', type=int, required=True)
 
 @nsAlumno.route('/')
 class AlumnosResource(Resource):
+    # @nsAlumno.marshal_list_with(modeloAlumno)
+    # def get(self):
+    #     return repo.get_all()
+    
     @nsAlumno.marshal_list_with(modeloAlumno)
     def get(self):
         return repo.get_all()
-    
-    
+
     @nsAlumno.expect(modeloAlumnoSinID)
     @nsAlumno.marshal_with(modeloAlumno)
     def post(self):
@@ -90,6 +97,6 @@ class AlumnoResource(Resource):
     def put(self, id):
         if repo.baja(id):
             # doy de baja en la tabla relacional
-            repoLep.bajaAlumno(id)
+            repo.bajaAlumno(id)
             return 'Alumno dado de baja', 200
         abort(400)    

@@ -1,19 +1,22 @@
 from flask import abort
 from flask_restx import Resource, Namespace, Model, fields, reqparse
 from infraestructura.alumno_materia_repo import AlumnoMateriaRepo
-
+from api.alumnos_api import modeloAlumno
+from api.cursos_api import modeloCurso
 from flask_restx.inputs import date
 
 repo = AlumnoMateriaRepo()
 
-nsAlumnoMateria = Namespace('AlumnoMateria', description= 'Administrador de linea-equipo-plan')
+nsAlumnoMateria = Namespace('AlumnoMateria', description= 'Administrador de Alumnos-materias')
 modeloAlumnoMateriaSinNum = Model('DetalleSinNumero',{
     'curso_id': fields.Integer(),
     'alumno_id': fields.Integer()
 })
 
 modeloAlumnoMateria = modeloAlumnoMateriaSinNum.clone('AlumnoMateria', {
-    'id': fields.Integer()
+    'id': fields.Integer(),
+    'curso': fields.Nested(modeloCurso, skip_none=True),
+    'alumno': fields.Nested(modeloAlumno, skip_none=True)
 })
 modeloBusqueda = Model('BusquedaFechas', {
     'desde': fields.Date(),
@@ -32,8 +35,8 @@ nuevoAlumnoMateriaParser.add_argument('alumno_id', type=int, required=True)
 editarAlumnoMateriaParser = nuevoAlumnoMateriaParser.copy()
 editarAlumnoMateriaParser.add_argument('id', type=int, required=True)
 buscarAlumnoMateriaParser = reqparse.RequestParser(bundle_errors=True)
-buscarAlumnoMateriaParser.add_argument('desde', type=str, required=True)
-buscarAlumnoMateriaParser.add_argument('hasta', type=str, required=True)
+buscarAlumnoMateriaParser.add_argument('desde', type=date, required=True)
+buscarAlumnoMateriaParser.add_argument('hasta', type=date, required=True)
 @nsAlumnoMateria.route('/')
 class AlumnoMateriaResource(Resource):
     @nsAlumnoMateria.marshal_list_with(modeloAlumnoMateria)

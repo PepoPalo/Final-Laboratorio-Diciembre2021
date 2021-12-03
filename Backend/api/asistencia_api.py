@@ -1,20 +1,24 @@
 from flask import abort
 from flask_restx import Resource, Namespace, Model, fields, reqparse
-from infraestructura.clientes_lep_repo import ClientesLepRepo
-from infraestructura.lineaequipoplan_repo import LineaEquipoPlanRepo
+
+from infraestructura.asistencia_repo import AsistenciaRepo
 
 
-repo = ClientesLepRepo()
-lepRepo = LineaEquipoPlanRepo()
 
-nsclienteLEP = Namespace('clienteLEPs', description='Administrador de Cliente ft Linea-Equipo-Plan')
-modeloclienteLEPSinN = Model('clienteLEPSinId',{
-    'cliente_id': fields.Integer(),
-    'lep_id': fields.Integer(),
-    'activo': fields.Boolean()
+repo = AsistenciaRepo()
+
+
+nsAsistencia  = Namespace('Asistencia s', description='Administrador de Asistencia ')
+modeloAsistenciaSinN = Model('Asistencia SinId',{
+    'id': fields.Integer(),
+    'alumno_id': fields.Integer(),
+    'curso_id': fields.Integer(),
+    'fecha': fields.Date(),
+    'fecha_baja':fields.Date(),
+    'presente': fields.Boolean()
 })
 
-modeloclienteLEP = modeloclienteLEPSinN.clone('clienteLEP', {
+modeloAsistencia  = modeloAsistenciaSinN.clone('Asistencia ', {
     'id': fields.Integer()
 })
 
@@ -23,39 +27,39 @@ modeloBusqueda = Model('BusquedaFechas', {
     'hasta': fields.Date()
 })
 
-nsclienteLEP.models[modeloclienteLEP.name] = modeloclienteLEP
-nsclienteLEP.models[modeloclienteLEPSinN.name] = modeloclienteLEPSinN
-nsclienteLEP.models[modeloBusqueda.name] = modeloBusqueda
-nuevaclienteLEPParser = reqparse.RequestParser(bundle_errors=True)
-nuevaclienteLEPParser.add_argument('lep_id', type=int, required=True)
-nuevaclienteLEPParser.add_argument('cliente_id', type=int, required=True)
-nuevaclienteLEPParser.add_argument('activo', type=bool, required=False)
+nsAsistencia .models[modeloAsistencia .name] = modeloAsistencia 
+nsAsistencia .models[modeloAsistenciaSinN.name] = modeloAsistenciaSinN
+nsAsistencia .models[modeloBusqueda.name] = modeloBusqueda
+nuevaAsistenciaParser = reqparse.RequestParser(bundle_errors=True)
+nuevaAsistenciaParser.add_argument(' _id', type=int, required=True)
+nuevaAsistenciaParser.add_argument('Asistencia_id', type=int, required=True)
+nuevaAsistenciaParser.add_argument('activo', type=bool, required=False)
 
-editarclienteLEPParser = nuevaclienteLEPParser.copy()
-editarclienteLEPParser.add_argument('id', type=int, required=True)
+editarAsistenciaParser = nuevaAsistenciaParser.copy()
+editarAsistenciaParser.add_argument('id', type=int, required=True)
 
-buscarclienteLEPParser = reqparse.RequestParser(bundle_errors=True)
-buscarclienteLEPParser.add_argument('desde', type=str, required=True)
-buscarclienteLEPParser.add_argument('hasta', type=str, required=True)
+buscarAsistenciaParser = reqparse.RequestParser(bundle_errors=True)
+buscarAsistenciaParser.add_argument('desde', type=str, required=True)
+buscarAsistenciaParser.add_argument('hasta', type=str, required=True)
 
-@nsclienteLEP.route('/')
-class clienteLEPResource(Resource):
-    @nsclienteLEP.marshal_list_with(modeloclienteLEP)
+@nsAsistencia .route('/')
+class AsistenciaResource(Resource):
+    @nsAsistencia .marshal_list_with(modeloAsistencia )
     def get(self):
         return repo.get_all()
 
-    @nsclienteLEP.expect(modeloclienteLEPSinN)
-    @nsclienteLEP.marshal_with(modeloclienteLEP)
+    @nsAsistencia .expect(modeloAsistenciaSinN)
+    @nsAsistencia .marshal_with(modeloAsistencia )
     def post(self):
-        data = nuevaclienteLEPParser.parse_args()
+        data = nuevaAsistenciaParser.parse_args()
         f = repo.agregar(data)
         if f:
             return f, 201
         abort(500)
 
-@nsclienteLEP.route('/<int:numero>')
-class clienteLEPsResource(Resource):
-    @nsclienteLEP.marshal_with(modeloclienteLEP)
+@nsAsistencia .route('/<int:numero>')
+class AsistenciasResource(Resource):
+    @nsAsistencia .marshal_with(modeloAsistencia )
     def get(self, numero):
         f = repo.get_by_numero(numero)
         if f:
@@ -64,26 +68,26 @@ class clienteLEPsResource(Resource):
 
     def delete(self, numero):
         if repo.borrar(numero):
-            return 'clienteLEP borrada', 200
+            return 'Asistencia  borrada', 200
         abort(400)
     
-    @nsclienteLEP.expect(modeloclienteLEP)
+    @nsAsistencia .expect(modeloAsistencia )
     def put(self, numero):
-        data = editarclienteLEPParser.parse_args()
+        data = editarAsistenciaParser.parse_args()
         if repo.modificar(numero, data):
-            return 'clienteLEP modificada', 200
+            return 'Asistencia  modificada', 200
         abort(404)
 
-@nsclienteLEP.route('/buscar/<string:desde>/<string:hasta>/<int:cliente>')
-class clienteLEPsResource(Resource):
-    @nsclienteLEP.marshal_list_with(modeloclienteLEP)
-    def get(self, desde, hasta, cliente):
-        l = repo.buscar_by_cliente(cliente)
-        if l:
-            a= []
-            for x in l:
-               h= lepRepo.get_by_id(x)
-               a.append(h)
+# @nsAsistencia .route('/buscar/<string:desde>/<string:hasta>/<int:Asistencia>')
+# class AsistenciasResource(Resource):
+#     @nsAsistencia .marshal_list_with(modeloAsistencia )
+#     def get(self, desde, hasta, Asistencia):
+#         l = repo.buscar_by_Asistencia(Asistencia)
+#         if l:
+#             a= []
+#             for x in l:
+#                h=  Repo.get_by_id(x)
+#                a.append(h)
 
-            return a, 200
-        abort(404)
+#             return a, 200
+#         abort(404)
