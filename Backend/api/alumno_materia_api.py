@@ -27,8 +27,7 @@ nsAlumnoMateria.models[modeloBusqueda.name] = modeloBusqueda
 nuevoAlumnoMateriaParser = reqparse.RequestParser(bundle_errors=True)
 nuevoAlumnoMateriaParser.add_argument('curso_id', type=int, required=True)
 nuevoAlumnoMateriaParser.add_argument('alumno_id', type=int, required=True)
-nuevoAlumnoMateriaParser.add_argument('fecha_ini', type=date, required=True)
-nuevoAlumnoMateriaParser.add_argument('fecha_fin', type=date, required=False)
+
 
 editarAlumnoMateriaParser = nuevoAlumnoMateriaParser.copy()
 editarAlumnoMateriaParser.add_argument('id', type=int, required=True)

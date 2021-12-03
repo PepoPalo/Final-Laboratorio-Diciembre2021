@@ -5,9 +5,9 @@ from datos import db
 class Asistencia(db.Model):
     __tablename__ = 'Asistencia'    
     id= Column(Integer(), primary_key=True, autoincrement=True)
-    alumno_id = Column(Integer(), nullable=False)
-    curso_id = Column(Integer(), nullable=False)
+    alumno_id = Column(Integer(), ForeignKey('alumndo.id'), nullable=False)
+    curso_id = Column(Integer(), ForeignKey('alumndo.id'), nullable=False)
     fecha = Column(Date(), nullable=False)
     presente = Column(Boolean(), nullable=False)
-    ForeignKeyConstraint(['alumno_id'], ['alumno.id'])
-    ForeignKeyConstraint(['curso_id'], ['curso.id'])
+    curso = relationship("cursos", backref="alumno_materia",lazy='joined')
+    alumno = relationship("alumnos", backref="alumno_materia",lazy='joined')

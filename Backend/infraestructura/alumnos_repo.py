@@ -1,4 +1,4 @@
-from dominio.Alumno import Alumno
+from dominio.alumno import Alumno
 from datos import db
 
 

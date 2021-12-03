@@ -8,7 +8,7 @@ from api.profesores_api import nsProfesor
 from api.alumno_materia_api import nsAlumnoMateria
 from api.cursos_api import nsCurso
 
-from api.asistencia_api import nsAsistencia
+# from api.asistencia_api import nsAsistencia
 from api.alumnos_api import nsAlumno
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Yegua2020@localhost/Instituto"
@@ -24,8 +24,8 @@ api = Api(app, version='1.0.beta', title='Instituto', description='Administracio
 
 
 # api.add_namespace(nsAsistencia)
-# api.add_namespace(nsAlumno)
-# api.add_namespace(nsCurso)
+api.add_namespace(nsAlumno)
+api.add_namespace(nsCurso)
 api.add_namespace(nsProfesor) 
 
 api.add_namespace(nsAlumnoMateria)

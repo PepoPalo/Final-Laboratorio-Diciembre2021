@@ -1,4 +1,4 @@
-from dominio.Profesor import Profesor
+from dominio.profesor import Profesor
 from datos import db
 
 class ProfesoresRepo():
@@ -6,28 +6,28 @@ class ProfesoresRepo():
         return Profesor.query.all()
 
     def agregar(self, data):
-        Profesor = Profesor(**data)
-        db.session.add(Profesor)
+        P = Profesor(**data)
+        db.session.add(P)
         db.session.commit()
-        return Profesor
+        return P
     
     def get_by_id(self, id):
         return Profesor.query.get(id)
 
     def baja(self, id):
-        Profesor = Profesor.query.get(id)
-        if Profesor:
-            db.session.delete(Profesor)       
+        P = Profesor.query.get(id)
+        if P:
+            db.session.delete(P)       
             db.session.commit()
             return True
         return False
 
     def modificar(self,id,data):
-        Profesor = Profesor.query.get(id)
-        if Profesor:
-            Profesor.nombre = data['nombre']
-            Profesor.direccion = data['direccion']
-            Profesor.titulo = data[titulo]
+        P = Profesor.query.get(id)
+        if P:
+            P.nombre = data['nombre']
+            P.direccion = data['direccion']
+            P.titulo = data['titulo']
             db.session.commit()
             return True
         return False

@@ -6,8 +6,8 @@ class AsistenciaRepo():
         return Asistencia.query.all()
 
     def agregar(self, data):
-        Asistencia = Asistencia(**data)
-        db.session.add(Asistencia)
+        A = Asistencia(**data)
+        db.session.add(A)
         db.session.commit()
         return Asistencia
 

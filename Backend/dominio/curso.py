@@ -1,5 +1,5 @@
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Boolean, Float, Integer, String, Numeric, Date
+from sqlalchemy import Column, Boolean, Float, Integer, String, Numeric, Date,ForeignKey
 from datos import db
 
 class Curso(db.Model):
@@ -8,13 +8,12 @@ class Curso(db.Model):
     nombre = Column(String(), nullable=False)
     fecha_ini = Column(Date(),  nullable=False)
     fecha_fin = Column(Date(),  nullable=False)
-    id_prof_tit = Column(Integer(),  ForeignKey('profesor.id'), primary_key=true)
-    id_prof_adj = Column(Integer(),  ForeignKey('profesor.id'))
+    id_prof_tit = Column(Integer(), primary_key=True)
+    id_prof_adj = Column(Integer())
     cupo_total = Column(Integer(),  nullable=False)
-    prof_tit = relationship("Profesor", backref="cursos",lazy='joined')
-    prof_adj = relationship("Profesor", backref="cursos",lazy='joined')
+    # prof_tit = relationship("Profesor", backref="cursos",lazy='joined')
+    # prof_adj = relationship("Profesores", backref="cursos",lazy='joined')
 
-
-
+# ForeignKey('profesor.id'),
 
     

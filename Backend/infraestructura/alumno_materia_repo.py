@@ -1,11 +1,11 @@
 import datetime
 from dominio.alumnomateria import AlumnoMateria
-from dominio.lineaequipoplan import Lineaequipoplan
+
 from datos import db
 
 class AlumnoMateriaRepo():
     def get_all(self):
-        return AlumnoMateria.query.filter(AlumnoMateria.activo == True).all()
+        return AlumnoMateria.query.all()
 
     def agregar(self, data):
         a = AlumnoMateria(**data)

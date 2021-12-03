@@ -1,8 +1,7 @@
 from flask import abort
 from flask_restx import Resource, Namespace, Model, fields, reqparse
-from infraestructura.Cursos_repo import CursosRepo
-from infraestructura.clientes_lep_repo import ClientesLepRepo
-from infraestructura.lineaCursoplan_repo import LineaCursoPlanRepo
+from infraestructura.cursos_repo import CursosRepo
+
 
 from flask_restx.inputs import date
 
@@ -93,6 +92,18 @@ class CursoResource(Resource):
         if l:
             return l, 200
         abort(404)
+
+
+
+@nsCurso.route('/buscar/<string:desde>/<string:hasta>/')
+class CursoResource(Resource):
+    @nsCurso.marshal_list_with(modeloCurso)
+    def get(self, profe_id):
+        l = repo.get_by_titular(profe_id)
+        if l:
+            return l, 200
+        abort(404)
+
 @nsCurso.route('/baja/<int:id>')
 class CursoResource(Resource):
     @nsCurso.expect(modeloCurso)
