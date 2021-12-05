@@ -56,16 +56,22 @@ class AlumnoMateriaResource(Resource):
 class AlumnoMateriaResource(Resource):
     @nsAlumnoMateria.marshal_list_with(modeloAlumnoMateria)
     def get(self, alumno):
-        return repo.get_all(alumno)
+        return repo.buscar_by_alumno(alumno)
 
-@nsAlumnoMateria.route('/<int:alumno>/<int:id>')
+@nsAlumnoMateria.route('/buscar/<int:curso>')
 class AlumnoMateriaResource(Resource):
-    @nsAlumnoMateria.marshal_with(modeloAlumnoMateria)
-    def get(self, id):
-        df = repo.get_by_id(id)
-        if df:
-            return df, 200
-        abort(400)
+    @nsAlumnoMateria.marshal_list_with(modeloAlumnoMateria)
+    def get(self, curso):
+        return repo.buscar_x_curso(curso)
+
+# @nsAlumnoMateria.route('/<int:alumno>/<int:id>')
+# class AlumnoMateriaResource(Resource):
+#     @nsAlumnoMateria.marshal_with(modeloAlumnoMateria)
+#     def get(self, id):
+#         df = repo.get_by_id(id)
+#         if df:
+#             return df, 200
+#         abort(400)
    
     @nsAlumnoMateria.expect(modeloAlumnoMateria)
     def put(self, id):
@@ -73,29 +79,29 @@ class AlumnoMateriaResource(Resource):
         if repo.modificar(id,data):
             return 'Relacion alumno-materia modificada', 200
         abort(404)
-@nsAlumnoMateria.route('/baja/<int:id>')
-class AlumnoMateriaResource(Resource):
-    @nsAlumnoMateria.expect(modeloAlumnoMateria)
+# @nsAlumnoMateria.route('/baja/<int:id>')
+# class AlumnoMateriaResource(Resource):
+#     @nsAlumnoMateria.expect(modeloAlumnoMateria)
 
-    def put(self, id):
-        if repo.baja(id):
-            repoAlumnoMateria.baja(id)
-            return 'Relacion alumno-materia eliminada', 200            
-        abort(400)
-@nsAlumnoMateria.route('/buscar/<string:desde>/<string:hasta>/<int:id>')
-class AlumnoMateriaResource(Resource):
-    @nsAlumnoMateria.marshal_list_with(modeloAlumnoMateria)
-    def get(self, desde, hasta,id):
-        l = repoAlumnoMateria.buscar(id)
-        if l:
+#     def put(self, id):
+#         if repo.baja(id):
+#             repoAlumnoMateria.baja(id)
+#             return 'Relacion alumno-materia eliminada', 200            
+#         abort(400)
+# @nsAlumnoMateria.route('/buscar/<string:desde>/<string:hasta>/<int:id>')
+# class AlumnoMateriaResource(Resource):
+#     @nsAlumnoMateria.marshal_list_with(modeloAlumnoMateria)
+#     def get(self, desde, hasta,id):
+#         l = repoAlumnoMateria.buscar(id)
+#         if l:
             
-             a= []
-             for x in l:
-               h= repo.buscar(x.id,desde,hasta)
+#              a= []
+#              for x in l:
+#                h= repo.buscar(x.id,desde,hasta)
             
-             a.append(h)
-             return a, 200
-        abort(404)
+#              a.append(h)
+#              return a, 200
+#         abort(404)
 @nsAlumnoMateria.route('/buscar/<string:desde>/<string:hasta>')
 class AlumnoMateriaResource(Resource):
     @nsAlumnoMateria.marshal_list_with(modeloAlumnoMateria)

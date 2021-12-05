@@ -14,7 +14,8 @@ class CursosRepo():
         db.session.add(c)
         db.session.commit()
         return c
-    
+    def get_by_id(self, id):
+        return Curso.query.get(id)
     def get_by_titular(self, profe_id):
         # return Curso.query(Curso, Equipo, Linea, Plan).join(Equipo.modelo).join(Linea.numero).join(Plan.nombre).filter(Curso.id == id, Curso.linea_id == Linea.id).all()
          return Curso.query.filter(Curso.id_prof_tit== profe_id).all()

@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy.orm import query
 from dominio.alumnomateria import AlumnoMateria
 from dominio.curso import Curso
@@ -20,13 +21,16 @@ class AlumnosRepo():
         return Alumno.query.get(id)
 
     def get_alumno_clase(self):
-        return db.session.query(Alumno).select_from(Curso).join(AlumnoMateria).filter( Alumno.id==AlumnoMateria.alumno_id, AlumnoMateria.curso_id==Curso.id).all()
+        respuesta = db.session.query(Alumno,Curso.nombre).select_from(Alumno).join(AlumnoMateria).join(Curso).filter( Alumno.id==AlumnoMateria.alumno_id, AlumnoMateria.curso_id==Curso.id).all()
+        print (respuesta)
+        #  filter( Alumno.id==AlumnoMateria.alumno_id, AlumnoMateria.curso_id==Curso.id).
+        return respuesta
 
 
     def baja(self,id):
         e = Alumno.query.get(id)
         if e:
-            db.session.delete(e)
+            e.fecha_baja = datetime.today()
             db.session.commit()
             return True
         return False

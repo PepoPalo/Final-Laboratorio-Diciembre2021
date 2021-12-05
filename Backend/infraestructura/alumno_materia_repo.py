@@ -1,4 +1,7 @@
 import datetime
+
+from flask_restx.inputs import date
+from dominio.curso import Curso
 from dominio.alumnomateria import AlumnoMateria
 
 from datos import db
@@ -16,27 +19,27 @@ class AlumnoMateriaRepo():
     def get_by_numero(self, numero):
         return AlumnoMateria.query.get(numero)
 
-    def bajaalumno(self, numero):
-        a = AlumnoMateria.query.filter(            
-            AlumnoMateria.alumno_id  == numero).all()     
-        if a:
-            for x in a:             
-             db.session.delete(x)
-            db.session.commit()
-            return True
-        return False
+    # def bajaalumno(self, numero):
+    #     a = AlumnoMateria.query.filter(            
+    #         AlumnoMateria.alumno_id  == numero).all()     
+    #     if a:
+    #         for x in a:             
+    #          x.fecha_baja = datetime.date.today()
+    #         db.session.commit()
+    #         return True
+    #     return False
 
 
 
-    def bajacurso(self, numero):
-        a = AlumnoMateria.query.filter(            
-            AlumnoMateria.curso_id == numero).all()               
-        if a:
-            for x in a:
-                db.session.remove(a)
-            db.session.commit()
-            return True
-        return False
+    # def bajacurso(self, numero):
+    #     a = AlumnoMateria.query.filter(            
+    #         AlumnoMateria.curso_id == numero).all()               
+    #     if a:
+    #         for x in a:
+    #             db.session.remove(a)
+    #         db.session.commit()
+    #         return True
+    #     return False
 
 
         
@@ -58,13 +61,24 @@ class AlumnoMateriaRepo():
 
 
 
-    def buscar_by_curso(self, curso):
-        return AlumnoMateria.query.filter(            
-            AlumnoMateria.curso_id == curso
-           ).all()
+#     def buscar_by_curso(self, curso):
+#         respuestacurso = db.session.query(AlumnoMateria).filter( AlumnoMateria.curso_id==curso).all()
+# # select_from(Curso).join(AlumnoMateria).
+#         # respuestacurso =  AlumnoMateria.query.filter(            
+#         #     AlumnoMateria.curso_id == curso)
+#         print(respuestacurso)
+#         return respuestacurso
 
 
+
+    def buscar_x_curso(self, curso):
+        respuestaalumno =  AlumnoMateria.query.filter(            
+            AlumnoMateria.curso_id == curso).all() 
+        print(respuestaalumno)          
+        return respuestaalumno
 
     def buscar_by_alumno(self, alumno):
-        return AlumnoMateria.query.filter(            
-            AlumnoMateria.alumno_id == alumno).all()           
+        respuestaalumno =  AlumnoMateria.query.filter(            
+            AlumnoMateria.alumno_id == alumno).all() 
+        print(respuestaalumno)          
+        return respuestaalumno

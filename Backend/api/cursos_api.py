@@ -95,7 +95,7 @@ class CursoResource(Resource):
 
 
 
-@nsCurso.route('/buscar/<string:desde>/<string:hasta>/')
+@nsCurso.route('/buscar/<int:profe_id>/')
 class CursoResource(Resource):
     @nsCurso.marshal_list_with(modeloCurso)
     def get(self, profe_id):
