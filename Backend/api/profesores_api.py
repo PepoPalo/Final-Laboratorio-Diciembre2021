@@ -68,7 +68,7 @@ class ProfesorResource(Resource):
      def put(self, id):
         if repo.baja(id):
           
-            return 'Profesor eliminado', 200
+            return 'Profesor dado de baja', 200
         abort(400)    
 
     

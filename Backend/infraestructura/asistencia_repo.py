@@ -22,17 +22,14 @@ class AsistenciaRepo():
     #         return True
     #     return False
 
-    def buscarPorCurso(self, desde, hasta, curso):
+    def buscarPorCurso(self, curso):
         return Asistencia.query.filter(
-            Asistencia.curso_id == curso,
-            Asistencia.fecha >= desde,
-            Asistencia.fecha <= hasta).all()    
+            Asistencia.curso_id == curso).all()    
 
-    def buscarPorAlumno(self, desde, hasta, alumno):
+    def buscarPorAlumno(self,  alumno):
         return Asistencia.query.filter(
             Asistencia.alumno_id == alumno,
-            Asistencia.fecha >= desde,
-            Asistencia.fecha <= hasta).all()    
+           ).all()    
 
 
     def modificar(self, id, data):
@@ -44,5 +41,17 @@ class AsistenciaRepo():
             db.session.commit()
             return True
         return False
+    
+    def buscarFechaCurso(self, desde, hasta,curso):
+        return Asistencia.query.filter(
+            Asistencia.fecha >= desde,
+            Asistencia.fecha <= hasta,
+            Asistencia.curso_id == curso).all()
+
+    def buscarFechaAlumno(self, desde, hasta,alumno):
+        return Asistencia.query.filter(
+            Asistencia.fecha >= desde,
+            Asistencia.fecha <= hasta,
+            Asistencia.alumno_id == alumno).all()
 
      

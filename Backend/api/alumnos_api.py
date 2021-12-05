@@ -93,11 +93,9 @@ class AlumnoResource(Resource):
 
 @nsAlumno.route('/baja/<int:id>')
 class AlumnoResource(Resource):
-    @nsAlumno.expect(modeloAlumno)
+   
     def put(self, id):
         if repo.baja(id):
-            # doy de baja en la tabla relacional
-            repo.bajaAlumno(id)
             return 'Alumno dado de baja', 200
         abort(400)    
 
