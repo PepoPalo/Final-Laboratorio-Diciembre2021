@@ -100,3 +100,14 @@ class AlumnoResource(Resource):
             repo.bajaAlumno(id)
             return 'Alumno dado de baja', 200
         abort(400)    
+
+@nsAlumno.route('/buscar/<int:curso>')
+class AlumnoResource(Resource):
+    @nsAlumno.marshal_list_with(modeloAlumno)
+    def get(self, curso):
+        l = repo.get_alumno_curso(curso)
+        if l:
+             
+             return l, 200
+        abort(404)
+

@@ -20,8 +20,8 @@ class AlumnosRepo():
     def get_by_id(self, id):
         return Alumno.query.get(id)
 
-    def get_alumno_clase(self):
-        respuesta = db.session.query(Alumno,Curso.nombre).select_from(Alumno).join(AlumnoMateria).join(Curso).filter( Alumno.id==AlumnoMateria.alumno_id, AlumnoMateria.curso_id==Curso.id).all()
+    def get_alumno_curso(self, curso):
+        respuesta = db.session.query(Alumno).select_from(Alumno).join(AlumnoMateria).join(Curso).filter( Alumno.id==AlumnoMateria.alumno_id, AlumnoMateria.curso_id==curso).all()
         print (respuesta)
         #  filter( Alumno.id==AlumnoMateria.alumno_id, AlumnoMateria.curso_id==Curso.id).
         return respuesta

@@ -64,6 +64,23 @@ class CursoResource(Resource):
         if p:
             return p, 200
         abort(500)
+    @nsCurso.expect(modeloCurso)
+    def put(self, id):
+        data = editarCursoParser.parse_args()
+        if repo.modificar(id,data):
+            return 'Curso actualizado', 200
+        abort(404)
+# @nsCurso.route('/activos')
+# class CursoResource(Resource):
+#     @nsCurso.marshal_with(modeloCurso)
+#     def get(self):
+#         p = repo.traer_activos()
+#         if p:
+#             return p, 200
+#         abort(404)    
+      
+
+
 
 @nsCurso.route('/<int:id>')
 class CursoResource(Resource):
@@ -73,15 +90,20 @@ class CursoResource(Resource):
         if p:
             return p, 200
         abort(404)
-    
-    
-    
-    @nsCurso.expect(modeloCurso)
-    def put(self, id):
-        data = editarCursoParser.parse_args()
-        if repo.modificar(id,data):
-            return 'Curso actualizado', 200
-        abort(404)
+
+    def delete(self, id):
+        if repo.baja(id):
+            return 'Curso dado de baja', 200
+        abort(400)    
+
+
+
+
+
+
+
+
+
    
 
 @nsCurso.route('/buscar/<string:desde>/<string:hasta>/')
@@ -93,7 +115,14 @@ class CursoResource(Resource):
             return l, 200
         abort(404)
 
-
+@nsCurso.route('/buscar/cursoalumno/<int:alumno>/')
+class CursoResource(Resource):
+    @nsCurso.marshal_list_with(modeloCurso)
+    def get(self, alumno):
+        l = repo.get_by_alumno(alumno)
+        if l:
+            return l, 200
+        abort(404)
 
 @nsCurso.route('/buscar/<int:profe_id>/')
 class CursoResource(Resource):
@@ -104,13 +133,15 @@ class CursoResource(Resource):
             return l, 200
         abort(404)
 
-@nsCurso.route('/baja/<int:id>')
-class CursoResource(Resource):
-    @nsCurso.expect(modeloCurso)
+# @nsCurso.route('/baja/<int:id>')
+# class CursoResource(Resource):
+#     @nsCurso.expect(modeloCurso)
 
-    def put(self, id):
-        if repo.baja(id):
+#     def put(self, id):
+#         if repo.baja(id):
           
-            return 'Curso dado de Baja', 200            
-        abort(400)
+#             return 'Curso dado de Baja', 200            
+#         abort(400)
         
+
+   

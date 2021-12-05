@@ -7,6 +7,9 @@ from datos import db
 
 class Curso(db.Model):
     __tablename__ = 'cursos'
+    # __table_args__ = (
+    #     db.UniqueConstraint('id_prof_tit', 'id_prof_adj', name='unique_titular_adjunto'),
+    # )
     id = Column(Integer(),primary_key=True,  unique=True, autoincrement=True)
     nombre = Column(String(), nullable=False)
     fecha_ini = Column(Date(),  nullable=False)

@@ -19,27 +19,27 @@ class AlumnoMateriaRepo():
     def get_by_numero(self, numero):
         return AlumnoMateria.query.get(numero)
 
-    # def bajaalumno(self, numero):
-    #     a = AlumnoMateria.query.filter(            
-    #         AlumnoMateria.alumno_id  == numero).all()     
-    #     if a:
-    #         for x in a:             
-    #          x.fecha_baja = datetime.date.today()
-    #         db.session.commit()
-    #         return True
-    #     return False
+    def bajaalumno(self, numero):
+        a = AlumnoMateria.query.filter(            
+            AlumnoMateria.alumno_id  == numero).all()     
+        if a:
+            for x in a:             
+              db.session.delete(x)
+            db.session.commit()
+            return True
+        return False
 
 
 
-    # def bajacurso(self, numero):
-    #     a = AlumnoMateria.query.filter(            
-    #         AlumnoMateria.curso_id == numero).all()               
-    #     if a:
-    #         for x in a:
-    #             db.session.remove(a)
-    #         db.session.commit()
-    #         return True
-    #     return False
+    def bajacurso(self, numero):
+        a = AlumnoMateria.query.filter(            
+            AlumnoMateria.curso_id == numero).all()               
+        if a:
+            for x in a:
+                db.session.delete(a)
+            db.session.commit()
+            return True
+        return False
 
 
         
