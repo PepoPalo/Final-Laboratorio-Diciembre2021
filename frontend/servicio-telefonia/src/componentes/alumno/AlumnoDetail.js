@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
+import AlumnoCursoListado from './AlumnoCursoListado';
 
 export default function AlumnoDetail(){
     const history = useHistory()
@@ -86,49 +87,7 @@ export default function AlumnoDetail(){
                         <h5 className="col-12 text-left">{alumno.direccion}</h5>
                     </div>
                 </div>
-                <table className="table mt-3">
-                    <thead>
-                        <tr className="table-active">
-                            <th><h3>Cursos</h3></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <thead className="table-secondary">
-                        <tr>
-                            <th className="pl-0" scope="col">ID</th>
-                            <th className="text-center" scope="col">Nombre</th>
-                            <th className="text-center" scope="col"></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {lista.length > 0 && (
-                            lista.map(curso => (
-                                <>
-                                <tr key={curso.id}>
-                                    <th scope="row">{curso.id}</th>
-                                    <td className="text-center">{curso.nombre}</td>
-                                    <td></td>
-                                    <td className="text-center">
-                                        <button className="btn btn-outline-danger mr-2" onClick={alert("Borrando")}>Dar Baja</button>
-                                    </td>
-                                </tr>
-                                
-                            </>))
-                        )}
-                        {lista.length === 0 && (
-                            <tr>
-                            <td colSpan="3">
-                                <h2>No hay datos</h2>
-                            </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                <AlumnoCursoListado />
             </div>
         </div>
             
