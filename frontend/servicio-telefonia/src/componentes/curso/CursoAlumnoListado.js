@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default function CursoAlumnoListado() {
     const [lista, setLista] = useState([])
-    const [curso, setCurso] = useState({})
+    // const [curso, setCurso] = useState({})
     const { id } = useParams()
 
     useEffect(() => {
@@ -12,9 +12,9 @@ export default function CursoAlumnoListado() {
     }, [])
   
     function getAlumnos() {
-    //   axios.get("http://localhost:5000/alumnos/")
-    //     .then((response) => setLista(response.data))
-    //     .catch((error) => alert(error))
+      axios.get(`http://localhost:5000/Alumnos/buscar/${id}`)
+        .then((response) => setLista(response.data))
+        .catch((error) => alert(error))
     }
   
   
