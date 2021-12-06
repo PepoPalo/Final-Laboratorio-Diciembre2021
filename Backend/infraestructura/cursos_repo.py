@@ -1,4 +1,5 @@
 from sqlalchemy.orm import session
+from sqlalchemy.sql.elements import Null
 from dominio.alumnomateria import AlumnoMateria
 from dominio.curso import Curso
 
@@ -9,13 +10,14 @@ import datetime
 
 class CursosRepo():
     def get_all(self):
-        return Curso.query.all()
+        return Curso.query.filter(Curso.fecha_baja.is_(None)).all()
         
     def agregar(self, data):
         c = Curso(**data)
         if c:
             if data['id_prof_tit']==data['id_prof_adj']: return False
             else:
+                c.fecha_baja=Null
                 db.session.add(c)
                 db.session.commit()
                 return c
@@ -34,6 +36,7 @@ class CursosRepo():
         C = Curso.query.get(id)
         if C:
             C.fecha_fin = datetime.date.today()
+            C.fecha_baja = datetime.date.today()
             db.session.commit()
             return True
         return False    
@@ -57,6 +60,7 @@ class CursosRepo():
                  C.id_prof_tit = data['id_prof_tit']
                  C.id_prof_adj = data['id_prof_adj']
                  C.cupo_total = data['cupo_total']
+                 C.fecha_baja = Null
                  db.session.commit()
                  return True
         return False

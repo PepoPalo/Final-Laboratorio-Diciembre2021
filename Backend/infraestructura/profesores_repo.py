@@ -1,3 +1,4 @@
+from sqlalchemy.sql.elements import Null
 from dominio.profesor import Profesor
 from datetime import datetime
 
@@ -5,10 +6,11 @@ from datos import db
 
 class ProfesoresRepo():
     def get_all(self):
-        return Profesor.query.all()
+        return Profesor.query.filter(Profesor.fecha_baja.is_(None)).all()
 
     def agregar(self, data):
         P = Profesor(**data)
+        P.fecha_baja = Null
         db.session.add(P)
         db.session.commit()
         return P
