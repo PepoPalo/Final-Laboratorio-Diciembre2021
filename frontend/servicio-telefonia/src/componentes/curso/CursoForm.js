@@ -2,51 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-export default function EquipoForm(){
+export default function CursoForm(){
     const history = useHistory()
-    const { imei } = useParams()
-    const [equipo, setEquipo] = useState({
-        imei: '',
-        marca: '',
-        modelo: '',
-        estado: '',
-        fecha_ingreso: '',
-        activo: '',
+    const { id } = useParams()
+    const [lista, setLista] = useState([])
+    const [curso, setCurso] = useState({
+        id: 1,
+        nombre: 'Programación',
+        desde: '01/03/2021',
+        hasta: '28/06/2021',
     })
-    const estados = [
-        {
-            op: 0,
-            estado: ''
-        },
-        {
-            op: 1,
-            estado: 'preventa',
-        },
-        {
-            op: 2,
-            estado: 'en sucursal',
-        },
-        {
-            op: 3,
-            estado: 'vendido',
-        },
-        {
-            op: 4,
-            estado: 'descompuesto',
-        }
-    ]
 
     useEffect(() => {
-        if (imei) {
-            axios.get(`http://localhost:5000/equipos/${imei}`)
-                .then(response => setEquipo(response.data))
-                .catch(error => alert(error))
-        }
+        // if (id) {
+        //     axios.get(`http://localhost:5000/cursos/${id}`)
+        //         .then(response => setCurso(response.data))
+        //         .catch(error => alert(error))
+        // }
     }, [])
 
     function handleOnChange(event, campo) {
-        setEquipo({
-            ...equipo,
+        setCurso({
+            ...curso,
             [campo]: event.target.value
         })
     }
@@ -55,70 +32,115 @@ export default function EquipoForm(){
 
         event.preventDefault()
         event.stopPropagation()
-        if (imei) {
-            axios.put(`http://localhost:5000/equipos/${imei}`, equipo)
+        if (id) {
+            axios.put(`http://localhost:5000/cursos/${id}`, curso)
                 .then(response => {
                     alert("se ha modificado el registro")
-                    history.push("/equipos/")
+                    history.push("/cursos/")
                 })
                 .catch(error => alert(error))
         }
         else {
-            axios.post("http://localhost:5000/equipos/", equipo)
+            axios.post("http://localhost:5000/cursos/", curso)
                 .then(response => {
                     alert("se ha agregado el registro")
-                    history.push("/equipos/")
+                    history.push("/cursos/")
                 }).catch(error => alert(error))
         }
     }
 
     return(
         <>
-            <div className="container bg-white p-3">
-
-                {imei && <h1>Editando equipo</h1>}
-                {!imei && <h1>Nuevo equipo</h1>}
-                <form onSubmit={(event) => guardar(event)}>
-                    <div className="form-row">
-                        <label className="col-2 align-self-center">Marca</label>
-                        <input type="text" className="form-control col-2" value={equipo.marca} onChange={(event) => handleOnChange(event, 'marca')} />
-                        <label className="col-1 text-center align-self-center">Modelo</label>
-                        <input type="text" className="form-control col-2" value={equipo.modelo} onChange={(event) => handleOnChange(event, 'modelo')} />
-                        <label className="col-1 text-center align-self-center">Estado</label>
-                        <select 
-                            key={0} 
-                            value={equipo.estado} 
-                            className="form-control col-2" 
-                            aria-label=".form-select-lg example" 
-                            onChange={(event) => {handleOnChange(event, 'estado') }}>
-                            {estados.map(item => (
-                                <option key={item.op} value={item.estado}>{item.estado}</option>
-                                ))
-                            }
-                        </select>
-                    </div>
-                    <div className="form-row my-3">
-                        <label className="col-2 align-self-center">Fecha de Ingreso</label>
-                        {/* <input type="text" className="form-control col-2" value={equipo.fecha_ingreso} onChange={(event) => handleOnChange(event, 'fecha_ingreso')} /> */}
-                        
-                            <input 
-                                className="form-control col-2"
-                                type="date"
-                                min="2018-01-01" 
-                                max="2023-12-31" 
-                                value={equipo.fecha_ingreso}
-                                onChange={(event) => handleOnChange(event, 'fecha_ingreso')}
-                                >
-                            </input>
-                        
-                        <div className="col-2"></div>
-                        <div className="col-4">
-                            <button type="submit" className="btn btn-primary mr-2">Aceptar</button>
-                            <button onClick={() => history.push("/equipos/")} className="btn btn-danger">Cancelar</button>
-                        </div>
-                    </div>
-                </form>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="#">Cursos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{curso.nombre}</li>
+            </ol>
+        </nav>
+        <div className="container card my-3">
+            <div className="card-header row justify-content-between align-items-center">
+                <h1 className="text-left col-md-4">{curso.nombre}</h1>
+                <div className="col-4">
+                    <button onClick={() => history.push("/cursos/")} className="btn btn-outline-secondary mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-card-list mr-1" viewBox="0 0 18 18">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                        </svg>
+                        Volver al listado
+                    </button>
+                    <button type="submit" className="btn btn-outline-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil mr-1" viewBox="0 0 16 16">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                        </svg>
+                        Editar
+                    </button>
+                </div>
             </div>
+            <div className="card-body">
+                <div className="row">
+                    <div className="col-3">
+                        <label className="col-12 text-left">Profesor:</label>
+                        <h5 className="col-12 text-left">Antonini, Santiago</h5>
+                    </div>
+                    <div className="col-3">
+                        <label className="col-12 text-left">Profesor Auxiliar:</label>
+                        <h5 className="col-12 text-left">Citera, Wenceslao</h5>
+                    </div>
+                    <div className="col-3">
+                        <label className="col-12 text-left">Desde:</label>
+                        <h5 className="col-12 text-left">01/03/2021</h5>
+                    </div>
+                    <div className="col-3">
+                        <label className="col-12 text-left">Hasta:</label>
+                        <h5 className="col-12 text-left">10/12/2021</h5>
+                    </div>
+                </div>
+                <table className="table mt-3">
+                    <thead>
+                        <tr className="table-active">
+                            <th><h3>Alumnos</h3></th>
+                            <th></th>
+                            <th></th>
+                            <th>Cupos: 24</th>
+                            <th>Inscriptos: 19</th>
+                        </tr>
+                    </thead>
+                    <thead className="table-secondary">
+                        <tr>
+                            <th className="pl-0" scope="col">Libreta Universitaria</th>
+                            <th className="text-center" scope="col">Nombre</th>
+                            <th className="text-center" scope="col"></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {lista.length > 0 && (
+                            lista.map(alumno => (
+                                <>
+                                <tr key={alumno.imei}>
+                                    <th scope="row">{alumno.id}</th>
+                                    <td className="text-center">{alumno.nombre}</td>
+                                    <td></td>
+                                    <td className="text-center">
+                                        <button className="btn btn-outline-danger mr-2" onClick={alert("Borrando")}>Dar Baja</button>
+                                    </td>
+                                </tr>
+                                
+                            </>))
+                        )}
+                        {lista.length === 0 && (
+                            <tr>
+                            <td colSpan="3">
+                                <h2>No hay datos</h2>
+                            </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            
         </>
     )
 }
