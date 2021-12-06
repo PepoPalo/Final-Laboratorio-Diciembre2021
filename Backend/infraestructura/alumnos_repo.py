@@ -14,7 +14,6 @@ class AlumnosRepo():
 
     def agregar(self, data):
         e = Alumno(**data)
-        e.fecha_baja=Null
         db.session.add(e)
         db.session.commit()
         return e

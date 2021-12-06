@@ -10,7 +10,6 @@ class ProfesoresRepo():
 
     def agregar(self, data):
         P = Profesor(**data)
-        P.fecha_baja = Null
         db.session.add(P)
         db.session.commit()
         return P

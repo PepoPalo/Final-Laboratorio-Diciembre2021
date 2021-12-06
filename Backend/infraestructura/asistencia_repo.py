@@ -10,7 +10,6 @@ class AsistenciaRepo():
 
     def agregar(self, data):
         A = Asistencia(**data)
-        A.fecha_baja= Null
         db.session.add(A)
         db.session.commit()
         return A

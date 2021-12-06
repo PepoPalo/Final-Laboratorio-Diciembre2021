@@ -17,7 +17,6 @@ class CursosRepo():
         if c:
             if data['id_prof_tit']==data['id_prof_adj']: return False
             else:
-                c.fecha_baja=Null
                 db.session.add(c)
                 db.session.commit()
                 return c
@@ -60,7 +59,6 @@ class CursosRepo():
                  C.id_prof_tit = data['id_prof_tit']
                  C.id_prof_adj = data['id_prof_adj']
                  C.cupo_total = data['cupo_total']
-                 C.fecha_baja = Null
                  db.session.commit()
                  return True
         return False
