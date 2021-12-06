@@ -14,7 +14,7 @@ class Curso(db.Model):
     nombre = Column(String(), nullable=False)
     fecha_ini = Column(Date(),  nullable=False)
     fecha_fin = Column(Date(),  nullable=False)
-    id_prof_tit = Column(Integer(), primary_key=True, nullable=False)
+    id_prof_tit = Column(Integer(),  nullable=False)
     id_prof_adj = Column(Integer())
     cupo_total = Column(Integer(),  nullable=False)
     fecha_baja = Column(Date(),nullable=True )

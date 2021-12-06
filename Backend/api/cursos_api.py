@@ -85,10 +85,10 @@ class CursoResource(Resource):
             return p, 200
         abort(404)
 
-    def delete(self, id):
-        if repo.baja(id):
-            return 'Curso dado de baja', 200
-        abort(400)    
+    # def delete(self, id):
+    #     if repo.baja(id):
+    #         return 'Curso dado de baja', 200
+    #     abort(400)    
 
 
 
@@ -104,7 +104,7 @@ class CursoResource(Resource):
 class CursoResource(Resource):
     @nsCurso.marshal_list_with(modeloCurso)
     def get(self, desde, hasta):
-        l = repo.buscar(desde, hasta)
+        l = repo.buscarPorFecha(desde, hasta)
         if l:
             return l, 200
         abort(404)
@@ -127,15 +127,15 @@ class CursoResource(Resource):
             return l, 200
         abort(404)
 
-# @nsCurso.route('/baja/<int:id>')
-# class CursoResource(Resource):
-#     @nsCurso.expect(modeloCurso)
+@nsCurso.route('/baja/<int:id>')
+class CursoResource(Resource):
+    @nsCurso.marshal_with(modeloCurso)
 
-#     def put(self, id):
-#         if repo.baja(id):
+    def put(self, id):
+        if repo.baja(id):
           
-#             return 'Curso dado de Baja', 200            
-#         abort(400)
+            return 'Curso dado de Baja', 200            
+        abort(400)
         
 
    
