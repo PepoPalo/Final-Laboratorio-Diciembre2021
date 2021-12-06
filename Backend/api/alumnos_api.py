@@ -36,7 +36,7 @@ nuevoAlumnoParser.add_argument('nombre', type=str, required=True)
 nuevoAlumnoParser.add_argument('direccion', type=str, required=True)
 nuevoAlumnoParser.add_argument('sexo', type=str, required=True)
 nuevoAlumnoParser.add_argument('edad', type=int, required=True)
-nuevoAlumnoParser.add_argument('fecha_baja', type=date, required=True)
+nuevoAlumnoParser.add_argument('fecha_baja', type=date, required=False)
 
 editarAlumnoParser = nuevoAlumnoParser.copy()
 editarAlumnoParser.add_argument('id', type=int, required=True)

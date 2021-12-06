@@ -17,7 +17,8 @@ modeloCursoSinID = Model('CursoSinCod',{
     'fecha_ini': fields.Date(),
     'fecha_fin': fields.Date(),
     'id_prof_tit': fields.Integer(),
-    'id_prof_adj': fields.Integer()
+    'id_prof_adj': fields.Integer(),
+    'fecha_baja': fields.Date()
 })
 
 modeloCurso = modeloCursoSinID.clone('Curso',{
@@ -40,6 +41,8 @@ nuevoCursoParser.add_argument('fecha_ini', type=date, required=True)
 nuevoCursoParser.add_argument('fecha_fin', type=date, required=True)
 nuevoCursoParser.add_argument('id_prof_tit', type=int, required=True)
 nuevoCursoParser.add_argument('id_prof_adj', type=int, required=True)
+nuevoCursoParser.add_argument('fecha_baja', type=date, required=False)
+
 
 
 
@@ -70,15 +73,6 @@ class CursoResource(Resource):
         if repo.modificar(id,data):
             return 'Curso actualizado', 200
         abort(404)
-# @nsCurso.route('/activos')
-# class CursoResource(Resource):
-#     @nsCurso.marshal_with(modeloCurso)
-#     def get(self):
-#         p = repo.traer_activos()
-#         if p:
-#             return p, 200
-#         abort(404)    
-      
 
 
 

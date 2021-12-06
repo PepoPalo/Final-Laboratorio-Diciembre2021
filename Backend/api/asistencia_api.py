@@ -80,10 +80,7 @@ class AsistenciasResource(Resource):
             return f, 200
         abort(404)
 
-    # def delete(self, numero):
-    #     if repo.borrar(numero):
-    #         return 'Asistencia  borrada', 200
-    #     abort(400)
+
     
     @nsAsistencia.expect(modeloAsistencia )
     def put(self, numero):      

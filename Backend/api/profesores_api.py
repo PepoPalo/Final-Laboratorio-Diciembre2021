@@ -1,6 +1,8 @@
 from flask import abort
 from flask_restx import Resource, Namespace, Model, fields, reqparse
 from infraestructura.profesores_repo import ProfesoresRepo
+from flask_restx.inputs import date
+
 
 repo = ProfesoresRepo()
 
@@ -9,7 +11,8 @@ nsProfesor = Namespace('Profesores', description='Administrador de Profesores')
 modeloProfesorSinID = Model('ProfesorSinCod',{
     'nombre': fields.String(),
     'titulo': fields.String(),
-    'direccion': fields.String()   
+    'direccion': fields.String(),
+    'fecha_baja'  : fields.Date() 
 })
 
 modeloProfesor = modeloProfesorSinID.clone('Profesor',{
@@ -24,6 +27,7 @@ nuevoProfesorParser = reqparse.RequestParser(bundle_errors=True)
 nuevoProfesorParser.add_argument('nombre', type=str, required=True)
 nuevoProfesorParser.add_argument('titulo', type=str, required=True)
 nuevoProfesorParser.add_argument('direccion', type=str, required=True)
+nuevoProfesorParser.add_argument('fecha_baja', type=date, required=False)
 
 
 editarProfesorParser = nuevoProfesorParser.copy()
