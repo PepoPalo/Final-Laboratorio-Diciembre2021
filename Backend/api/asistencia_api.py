@@ -1,6 +1,7 @@
 from flask import abort
 from flask_restx import Resource, Namespace, Model, fields, reqparse
 from flask_restx.inputs import date
+from api.cursos_api import modeloCurso
 
 from infraestructura.asistencia_repo import AsistenciaRepo
 
@@ -10,7 +11,7 @@ repo = AsistenciaRepo()
 
 
 nsAsistencia  = Namespace('Asistencias', description='Administrador de Asistencia ')
-modeloAsistenciaSinN = Model('Asistencia SinId',{
+modeloAsistenciaSinN = Model('AsistenciaSinId',{
     
     'alumno_id': fields.Integer(),
     'curso_id': fields.Integer(),
@@ -19,8 +20,10 @@ modeloAsistenciaSinN = Model('Asistencia SinId',{
     'presente': fields.Boolean()
 })
 
-modeloAsistencia  = modeloAsistenciaSinN.clone('Asistencia ', {
-    'id': fields.Integer()
+modeloAsistencia  = modeloAsistenciaSinN.clone('Asistencia', {
+    'id': fields.Integer(),
+    'cursos': fields.Nested(modeloCurso, skip_none=True)
+
 })
 
 modeloBusqueda = Model('BusquedaFechas', {
@@ -28,7 +31,7 @@ modeloBusqueda = Model('BusquedaFechas', {
     'hasta': fields.Date()
 })
 
-nsAsistencia.models[modeloAsistencia .name] = modeloAsistencia 
+nsAsistencia.models[modeloAsistencia.name] = modeloAsistencia 
 nsAsistencia.models[modeloAsistenciaSinN.name] = modeloAsistenciaSinN
 nsAsistencia.models[modeloBusqueda.name] = modeloBusqueda
 nuevaAsistenciaParser = reqparse.RequestParser(bundle_errors=True)
@@ -53,7 +56,7 @@ class AsistenciaResource(Resource):
         return repo.get_all()
 
     @nsAsistencia.expect(modeloAsistenciaSinN)
-    @nsAsistencia.marshal_with(modeloAsistencia )
+    @nsAsistencia.marshal_with(modeloAsistencia)
     def post(self):
         data = nuevaAsistenciaParser.parse_args()
         f = repo.agregar(data)
@@ -77,19 +80,19 @@ class AsistenciasResource(Resource):
             return f, 200
         abort(404)
 
-    def delete(self, numero):
-        if repo.borrar(numero):
-            return 'Asistencia  borrada', 200
-        abort(400)
+    # def delete(self, numero):
+    #     if repo.borrar(numero):
+    #         return 'Asistencia  borrada', 200
+    #     abort(400)
     
     @nsAsistencia.expect(modeloAsistencia )
-    def put(self, numero):
+    def put(self, numero):      
         data = editarAsistenciaParser.parse_args()
         if repo.modificar(numero, data):
             return 'Asistencia  modificada', 200
         abort(404)
 
-@nsAsistencia .route('/buscar/curso/<string:desde>/<string:hasta>/<int:curso>')
+@nsAsistencia.route('/buscarcurso/curso/<string:desde>/<string:hasta>/<int:curso>')
 class AsistenciasResource(Resource):
     @nsAsistencia.marshal_list_with(modeloAsistencia )
     def get(self, desde, hasta, curso):
@@ -97,7 +100,7 @@ class AsistenciasResource(Resource):
         if l:
          return l, 200
         abort(404)
-@nsAsistencia .route('/buscar/alumno/<string:desde>/<string:hasta>/<int:alumno>')
+@nsAsistencia.route('/buscar/alumno/<string:desde>/<string:hasta>/<int:alumno>')
 class AsistenciasResource(Resource):
     @nsAsistencia.marshal_list_with(modeloAsistencia )
     def get(self, desde, hasta, alumno):
