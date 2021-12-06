@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
+import CursoAlumnoListado from './CursoAlumnoListado';
 
 export default function CursoDetail(){
     const history = useHistory()
@@ -77,7 +78,7 @@ export default function CursoDetail(){
                 </div>
             </div>
             <div className="card-body">
-                <div className="row">
+                <div className="row mb-3">
                     <div className="col-3">
                         <label className="col-12 text-left">Profesor:</label>
                         <h5 className="col-12 text-left">Antonini, Santiago</h5>
@@ -95,49 +96,7 @@ export default function CursoDetail(){
                         <h5 className="col-12 text-left">10/12/2021</h5>
                     </div>
                 </div>
-                <table className="table mt-3">
-                    <thead>
-                        <tr className="table-active">
-                            <th><h3>Alumnos</h3></th>
-                            <th></th>
-                            <th></th>
-                            <th>Cupos: 24</th>
-                            <th>Inscriptos: 19</th>
-                        </tr>
-                    </thead>
-                    <thead className="table-secondary">
-                        <tr>
-                            <th className="pl-0" scope="col">Libreta Universitaria</th>
-                            <th className="text-center" scope="col">Nombre</th>
-                            <th className="text-center" scope="col"></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {lista.length > 0 && (
-                            lista.map(alumno => (
-                                <>
-                                <tr key={alumno.imei}>
-                                    <th scope="row">{alumno.id}</th>
-                                    <td className="text-center">{alumno.nombre}</td>
-                                    <td></td>
-                                    <td className="text-center">
-                                        <button className="btn btn-outline-danger mr-2" onClick={alert("Borrando")}>Dar Baja</button>
-                                    </td>
-                                </tr>
-                                
-                            </>))
-                        )}
-                        {lista.length === 0 && (
-                            <tr>
-                            <td colSpan="3">
-                                <h2>No hay datos</h2>
-                            </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                <CursoAlumnoListado />
             </div>
         </div>
             
