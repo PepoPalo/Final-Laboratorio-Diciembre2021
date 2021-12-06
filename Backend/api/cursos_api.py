@@ -16,8 +16,8 @@ modeloCursoSinID = Model('CursoSinCod',{
     'cupo_total': fields.Integer(),
     'fecha_ini': fields.Date(),
     'fecha_fin': fields.Date(),
-    'id_prof_tit': fields.Integer(),
-    'id_prof_adj': fields.Integer(),
+    'id_prof_tit': fields.String(),
+    'id_prof_adj': fields.String(),
     'fecha_baja': fields.Date()
 })
 
@@ -39,8 +39,8 @@ nuevoCursoParser.add_argument('nombre', type=str, required=True)
 nuevoCursoParser.add_argument('cupo_total', type=int, required=True)
 nuevoCursoParser.add_argument('fecha_ini', type=date, required=True)
 nuevoCursoParser.add_argument('fecha_fin', type=date, required=True)
-nuevoCursoParser.add_argument('id_prof_tit', type=int, required=True)
-nuevoCursoParser.add_argument('id_prof_adj', type=int, required=True)
+nuevoCursoParser.add_argument('id_prof_tit', type=str, required=True)
+nuevoCursoParser.add_argument('id_prof_adj', type=str, required=True)
 nuevoCursoParser.add_argument('fecha_baja', type=date, required=False)
 
 

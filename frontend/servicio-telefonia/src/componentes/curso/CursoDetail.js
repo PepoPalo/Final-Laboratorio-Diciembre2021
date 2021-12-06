@@ -15,11 +15,11 @@ export default function CursoDetail(){
     })
 
     useEffect(() => {
-        // if (id) {
-        //     axios.get(`http://localhost:5000/cursos/${id}`)
-        //         .then(response => setCurso(response.data))
-        //         .catch(error => alert(error))
-        // }
+        if (id) {
+            axios.get(`http://localhost:5000/Cursos/${id}`)
+                .then(response => setCurso(response.data))
+                .catch(error => alert(error))
+        }
     }, [])
 
     function handleOnChange(event, campo) {

@@ -2,21 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-var cursos = [
-    {
-        id: 1,
-        nombre: "Programación",
-        desde: "12/01/2021",
-        hasta: "28/06/2022"
-    },
-    {
-        id: 2,
-        nombre: "Higiene y Seguridad",
-        desde: "02/02/2022",
-        hasta: "28/11/2022"
-    }
-]
-
 export default function CursoListado() {
     const [lista, setLista] = useState([])
     useEffect(() => {
@@ -24,20 +9,20 @@ export default function CursoListado() {
     }, [])
   
     function getCursos() {
-    //   axios.get("http://localhost:5000/cursos/")
-    //     .then((response) => setLista(response.data))
-    //     .catch((error) => alert(error))
-        setLista(cursos)
+      axios.get("http://localhost:5000/Cursos/")
+        .then((response) => setLista(response.data))
+        .catch((error) => alert(error))
+        // setLista(cursos)
     }
   
   
-    function borrar(imei) {
-    //   axios.put(`http://localhost:5000/cursos/baja/${imei}`)
-    //     .then((response) => {
+    function borrar(id) {
+      axios.put(`http://localhost:5000/Cursos/baja/${id}`)
+        .then((response) => {
           alert("Registro borrado correctamente")
-        //   getCursos()
-        // })
-        // .catch(error => alert(error))
+          getCursos()
+        })
+        .catch(error => alert(error))
     }
 
 
@@ -78,13 +63,13 @@ export default function CursoListado() {
                                 <tr key={curso.imei}>
                                     <th scope="row">{curso.id}</th>
                                     <td className="text-center">{curso.nombre}</td>
-                                    <td className="text-center">{curso.desde}</td>
-                                    <td className="text-center">{curso.hasta}</td>
+                                    <td className="text-center">{curso.fecha_ini}</td>
+                                    <td className="text-center">{curso.fecha_fin}</td>
                                     <td className="text-center">
                                         <Link className="btn btn-outline-primary" to={"/cursos/" + curso.id}>DETALLE</Link> &nbsp;
                                         <Link className="btn btn-outline-primary" to={"/cursos/" + curso.id + "/alumnos/"}>Alumnos</Link> &nbsp;
                                         <Link className="btn btn-outline-primary" to={"/profesores/" + curso.id + "/profesores/"}>Profesores</Link> &nbsp;
-                                        <button className="btn btn-outline-danger mr-2" onClick={() => borrar(curso.imei)}>Dar Baja</button>
+                                        <button className="btn btn-outline-danger mr-2" onClick={() => borrar(curso.id)}>Dar Baja</button>
                                     </td>
                                 </tr>
                                 
