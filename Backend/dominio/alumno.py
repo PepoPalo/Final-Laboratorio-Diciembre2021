@@ -16,4 +16,4 @@ class Alumno(db.Model):
     fecha_baja = Column(Date(),nullable=True )
 
 
-    # cursos = relationship("Curso", backref="alumnos",lazy='joined')
+    
