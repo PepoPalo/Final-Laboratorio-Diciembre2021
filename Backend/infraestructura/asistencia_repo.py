@@ -6,7 +6,7 @@ from datetime import datetime
 
 class AsistenciaRepo():
     def get_all(self):
-        return Asistencia.query.filter(Asistencia.is_(None)).all()
+        return Asistencia.query.filter(Asistencia.fecha_baja.is_(None)).all()
 
     def agregar(self, data):
         A = Asistencia(**data)
