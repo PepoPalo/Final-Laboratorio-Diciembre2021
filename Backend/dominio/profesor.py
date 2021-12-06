@@ -8,5 +8,6 @@ class Profesor(db.Model):
     nombre = Column(String(), nullable=False)
     titulo = Column(String(), nullable=False)
     direccion = Column(String(), nullable=False)
+    fecha_baja= Column(Date(), nullable=True)
 #     cursos = relationship("Curso", backref="profesores",lazy='joined')
 #  ForeignKey('curso.id_prof_tit'),

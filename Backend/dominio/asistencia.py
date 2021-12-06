@@ -4,6 +4,9 @@ from datos import db
 
 class Asistencia(db.Model):
     __tablename__ = 'Asistencia'    
+    __table_args__ = (
+        db.UniqueConstraint('curso_id', 'alumno_id','fecha', name='unique_curso_alumno_fecha'),
+    )
     id= Column(Integer(), primary_key=True, autoincrement=True)
     alumno_id = Column(Integer(), ForeignKey('alumnos.id'), nullable=False)
     curso_id = Column(Integer(), ForeignKey('cursos.id'), nullable=False)

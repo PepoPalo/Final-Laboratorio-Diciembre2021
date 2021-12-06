@@ -1,5 +1,7 @@
 from datetime import datetime
 from sqlalchemy.orm import query
+from sqlalchemy.sql.elements import Null
+from sqlalchemy.sql.expression import null
 from dominio.alumnomateria import AlumnoMateria
 from dominio.curso import Curso
 from dominio.alumno import Alumno
@@ -8,11 +10,10 @@ from datos import db
 
 class AlumnosRepo():
     def get_all(self):
-        return Alumno.query.all()
+        return Alumno.query.filter(Alumno.fecha_baja.is_(None)).all()
 
     def agregar(self, data):
         e = Alumno(**data)
-        e.activo = True
         db.session.add(e)
         db.session.commit()
         return e

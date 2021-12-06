@@ -36,7 +36,7 @@ nuevoAlumnoParser.add_argument('nombre', type=str, required=True)
 nuevoAlumnoParser.add_argument('direccion', type=str, required=True)
 nuevoAlumnoParser.add_argument('sexo', type=str, required=True)
 nuevoAlumnoParser.add_argument('edad', type=int, required=True)
-nuevoAlumnoParser.add_argument('fecha_baja', type=date, required=True)
+nuevoAlumnoParser.add_argument('fecha_baja', type=date, required=False)
 
 editarAlumnoParser = nuevoAlumnoParser.copy()
 editarAlumnoParser.add_argument('id', type=int, required=True)
@@ -93,11 +93,9 @@ class AlumnoResource(Resource):
 
 @nsAlumno.route('/baja/<int:id>')
 class AlumnoResource(Resource):
-    @nsAlumno.expect(modeloAlumno)
+   
     def put(self, id):
         if repo.baja(id):
-            # doy de baja en la tabla relacional
-            repo.bajaAlumno(id)
             return 'Alumno dado de baja', 200
         abort(400)    
 
