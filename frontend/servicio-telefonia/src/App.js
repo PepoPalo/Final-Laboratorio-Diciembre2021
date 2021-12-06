@@ -1,13 +1,15 @@
 import './App.css';
 import { Link, Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
-import AlumnoForm from './componentes/alumno/AlumnoForm';
+import AlumnoDetail from './componentes/alumno/AlumnoDetail';
 import AlumnoListado from './componentes/alumno/AlumnoListado';
 
 import CursoAlumnoListado from './componentes/curso/CursoAlumnoListado';
-import CursoForm from './componentes/curso/CursoForm';
+import CursoDetail from './componentes/curso/CursoDetail';
 import CursoListado from './componentes/curso/CursoListado';
 
+import ProfesorDetail from './componentes/profesor/ProfesorDetail';
+import ProfesorForm from './componentes/profesor/ProfesorForm';
 import ProfesorListado from './componentes/profesor/ProfesorListado';
 
 
@@ -43,17 +45,18 @@ export default function App() {
           <Switch>
 
             {/* Alumnos */}
-            <Route path="/alumnos/crear" component={AlumnoForm}></Route>
-            <Route path="/alumnos/:id" component={AlumnoForm}></Route>
+            {/*<Route path="/alumnos/crear" component={AlumnoForm}></Route>*/}
+            <Route path="/alumnos/:id/" component={AlumnoDetail}></Route>
             <Route path="/alumnos" component={AlumnoListado}></Route>
 
             {/* Equipos */}
             <Route path="/cursos/:id/alumnos/" component={CursoAlumnoListado}></Route>
-            <Route path="/cursos/:id/" component={CursoForm}></Route>
+            <Route path="/cursos/:id/" component={CursoDetail}></Route>
             <Route path="/cursos/" component={CursoListado}></Route>
 
             {/* Linea */}
-            <Route path="/profesores/crear" component={ProfesorListado}></Route>
+            <Route path="/profesores/:id/edit" component={ProfesorForm}></Route>
+            <Route path="/profesores/:id/" component={ProfesorDetail}></Route>
             <Route path="/profesores" component={ProfesorListado}></Route>
 
           </Switch>

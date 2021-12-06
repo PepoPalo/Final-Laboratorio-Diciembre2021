@@ -79,7 +79,7 @@ export default function AlumnoListado() {
                                     <th >{alumno.id}</th>
                                     <td className="text-center">{alumno.nombre}</td>
                                     <td className="text-center">
-                                        <Link className="btn btn-outline-primary" to={"/alumnos/" + alumno.id}>Editar</Link> &nbsp;
+                                        <Link className="btn btn-outline-primary" to={"/alumnos/" + alumno.id}>DETALLE</Link> &nbsp;
                                         <button className="btn btn-outline-danger mr-2" onClick={() => borrar(alumno.id)}>Dar Baja</button>
                                     </td>
                                 </tr>

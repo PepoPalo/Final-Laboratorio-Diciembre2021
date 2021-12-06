@@ -75,15 +75,9 @@ export default function ProfesorListado() {
                                     <td className="text-center">
                                         <Link 
                                             className="btn btn-outline-primary mr-2" 
-                                            to={"/profesores/ficha/" + profesor.id}
-                                            data-toggle="tooltip" data-placement="bottom" title="Ficha del profesor"
-                                            >Ver
-                                        </Link>
-                                        <Link 
-                                            className="btn btn btn-outline-warning mr-2" 
                                             to={"/profesores/" + profesor.id}
-                                            data-toggle="tooltip" data-placement="bottom" title="Editar información personal"
-                                            >Editar
+                                            data-toggle="tooltip" data-placement="bottom" title="Detalle del profesor"
+                                            >DETALLE
                                         </Link>
                                         <button className="btn btn-outline-danger mr-2" onClick={() => borrar(profesor.id)}>Dar Baja</button>
                                         <Link 
