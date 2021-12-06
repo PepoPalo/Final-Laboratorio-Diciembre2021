@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
+import ProfesorCursoListado from './ProfesorCursoListado';
 
 export default function ProfesorDetail(){
     const history = useHistory()
@@ -77,7 +78,7 @@ export default function ProfesorDetail(){
                 </div>
             </div>
             <div className="card-body">
-                <div className="row">
+                <div className="row mb-3">
                     <div className="col-3">
                         <label className="col-12 text-left">Título:</label>
                         <h5 className="col-12 text-left">Zapatero Profesional</h5>
@@ -87,50 +88,7 @@ export default function ProfesorDetail(){
                         <h5 className="col-12 text-left">25 de Mayo 280, Paraná, Entre Ríos</h5>
                     </div>
                 </div>
-                <table className="table mt-3">
-                    <thead>
-                        <tr className="table-active">
-                            <th><h3>Cursos</h3></th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <thead className="table-secondary">
-                        <tr>
-                            <th className="pl-0" scope="col">ID</th>
-                            <th className="text-center" scope="col">Nombre</th>
-                            <th className="text-center" scope="col">Desde</th>
-                            <th>Hasta</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {lista.length > 0 && (
-                            lista.map(curso => (
-                                <>
-                                <tr key={curso.id}>
-                                    <th scope="row">{curso.id}</th>
-                                    <td className="text-center">{curso.nombre}</td>
-                                    <td>{curso.desde}</td>
-                                    <td>{curso.hasta}</td>
-                                    <td className="text-center">
-                                        <button className="btn btn-outline-danger mr-2" onClick={alert("Borrando")}>Dar Baja</button>
-                                    </td>
-                                </tr>
-                                
-                            </>))
-                        )}
-                        {lista.length === 0 && (
-                            <tr>
-                            <td colSpan="3">
-                                <h2>No hay datos</h2>
-                            </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                <ProfesorCursoListado />
             </div>
         </div>
             

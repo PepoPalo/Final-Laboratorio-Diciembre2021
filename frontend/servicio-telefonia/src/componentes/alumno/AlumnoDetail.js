@@ -73,7 +73,7 @@ export default function AlumnoDetail(){
                 </div>
             </div>
             <div className="card-body">
-                <div className="row">
+                <div className="row mb-3">
                     <div className="col-3">
                         <label className="col-12 text-left">Edad:</label>
                         <h5 className="col-12 text-left">{alumno.edad}</h5>
