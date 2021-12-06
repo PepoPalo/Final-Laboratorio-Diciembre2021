@@ -25,21 +25,21 @@ export default function AlumnoListado() {
     }, [ ])
   
     function getAlumnos() {
-    //   axios.get("http://localhost:5000/alumnos/")
-    //     .then((response) => setLista(response.data))
-    //     .catch((error) => alert(error))
-        setLista(alumnos)
+      axios.get("http://localhost:5000/Alumnos/")
+        .then((response) => setLista(response.data))
+        .catch((error) => alert(error))
+     //   setLista(alumnos)
     }
   
   
     function borrar(id) {
-    //   axios.put(`http://localhost:5000/alumnos/baja/${id}`)
-    //     .then((response) => {
-    //       alert("Registro borrado correctamente")
-    //       getAlumnos()
-    //     })
-    //     .catch(error => alert(error))
-        alert("Borro un alumno")
+      axios.put(`http://localhost:5000/Alumnos/baja/${id}`)
+        .then((response) => {
+          alert("Registro borrado correctamente")
+          getAlumnos()
+        })
+        .catch(error => alert(error))
+        
     }
 
 

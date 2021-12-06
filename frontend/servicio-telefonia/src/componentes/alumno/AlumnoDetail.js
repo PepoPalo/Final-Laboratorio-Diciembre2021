@@ -6,19 +6,14 @@ export default function AlumnoDetail(){
     const history = useHistory()
     const { id } = useParams()
     const [lista, setLista] = useState([])
-    const [alumno, setAlumno] = useState({
-        id: 1,
-        nombre: 'Main Josué',
-        desde: '01/03/2021',
-        hasta: '28/06/2021',
-    })
+    const [alumno, setAlumno] = useState([])
 
     useEffect(() => {
-        // if (id) {
-        //     axios.get(`http://localhost:5000/alumnos/${id}`)
-        //         .then(response => setAlumno(response.data))
-        //         .catch(error => alert(error))
-        // }
+        if (id) {
+            axios.get(`http://localhost:5000/Alumnos/${id}`)
+                .then(response => setAlumno(response.data))
+                .catch(error => alert(error))
+        }
     }, [])
 
     function handleOnChange(event, campo) {
@@ -33,7 +28,7 @@ export default function AlumnoDetail(){
         event.preventDefault()
         event.stopPropagation()
         if (id) {
-            axios.put(`http://localhost:5000/alumnos/${id}`, alumno)
+            axios.put(`http://localhost:5000/Alumnos/${id}`, alumno)
                 .then(response => {
                     alert("se ha modificado el registro")
                     history.push("/alumnos/")
@@ -41,7 +36,7 @@ export default function AlumnoDetail(){
                 .catch(error => alert(error))
         }
         else {
-            axios.post("http://localhost:5000/alumnos/", alumno)
+            axios.post("http://localhost:5000/Alumnos/", alumno)
                 .then(response => {
                     alert("se ha agregado el registro")
                     history.push("/alumnos/")
@@ -80,15 +75,15 @@ export default function AlumnoDetail(){
                 <div className="row">
                     <div className="col-3">
                         <label className="col-12 text-left">Edad:</label>
-                        <h5 className="col-12 text-left">30</h5>
+                        <h5 className="col-12 text-left">{alumno.edad}</h5>
                     </div>
                     <div className="col-3">
                         <label className="col-12 text-left">Sexo:</label>
-                        <h5 className="col-12 text-left">Masculino</h5>
+                        <h5 className="col-12 text-left">{alumno.sexo}</h5>
                     </div>
                     <div className="col-5">
                         <label className="col-12 text-left">Dirección:</label>
-                        <h5 className="col-12 text-left">25 de Mayo 280, Paraná, Entre Ríos</h5>
+                        <h5 className="col-12 text-left">{alumno.direccion}</h5>
                     </div>
                 </div>
                 <table className="table mt-3">
