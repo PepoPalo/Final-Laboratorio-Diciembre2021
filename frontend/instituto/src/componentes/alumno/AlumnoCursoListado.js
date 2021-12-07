@@ -22,7 +22,9 @@ export default function AlumnoCursoListado() {
       axios.put(`http://localhost:5000/AlumnoMateria/baja/alumno/${id}/${id_curso}`)
         .then((response) => {
             alert("Dado de baja del curso")
-            history.push(`/alumnos/${id}`)
+            axios.get(`http://localhost:5000/Cursos/buscar/cursoalumno/${id}`)
+            .then((response) => setLista(response.data))
+            .catch()
         })
         .catch(error => alert("No se pudo dar de baja"))
     }

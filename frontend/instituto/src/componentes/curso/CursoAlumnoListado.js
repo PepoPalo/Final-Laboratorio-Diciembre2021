@@ -27,13 +27,13 @@ export default function CursoAlumnoListado() {
     }
   
   
-    function borrar(id) {
-    //   axios.put(`http://localhost:5000/alumnos/baja/${imei}`)
-    //     .then((response) => {
-          alert("Registro borrado correctamente")
-        //   getAlumnos()
-        // })
-        // .catch(error => alert(error))
+    function borrar(alumno_id) {
+      axios.put(`http://localhost:5000/AlumnoMateria/baja/alumno/${alumno_id}/${id}`)
+        .then((response) => {
+          alert("Alumno dado de baja del curso.")
+          getAlumnos()
+        })
+        .catch(error => alert(error))
     }
 
     function asistio(id) {
