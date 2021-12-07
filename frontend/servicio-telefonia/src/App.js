@@ -52,7 +52,7 @@ export default function App() {
 
             {/* Equipos */}
             <Route path="/cursos/create/" component={CursoForm}></Route>
-            <Route path="/cursos/:id/alumnos/" component={CursoAlumnoListado}></Route>
+            <Route path="/cursos/:id/edit/" component={CursoForm}></Route>
             <Route path="/cursos/:id/" component={CursoDetail}></Route>
             <Route path="/cursos/" component={CursoListado}></Route>
 

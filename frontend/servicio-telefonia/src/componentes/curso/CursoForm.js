@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useHistory } from "react-router";
+import axios from 'axios';
+
 
 export default function CursoForm() {
     const [curso, setCurso] = useState({
@@ -10,7 +12,7 @@ export default function CursoForm() {
         fecha_ini: '',
         fecha_fin: '',
         id_prof_tit: '',
-        id_prof_adj: '',
+        id_prof_adj: 'Ninguno',
     });
     const [profesores, setProfesores] = useState([])
     const { id } = useParams();
@@ -21,22 +23,22 @@ export default function CursoForm() {
     }, [])
 
     function GetCurso() {
-        // if (id) {
-        //     axios.get(`http://localhost:5000/cursos/${id}`)
-        //         .then(response => setCurso(response.data))
-        //         .catch(error => alert(error))
-        // }
-        // axios.get(`http://localhost:5000/Profesores/`)
-        //         .then(response => setCurso(response.data))
-        //         .catch(error => alert(error))
+        if (id) {
+            axios.get(`http://localhost:5000/Cursos/${id}`)
+                .then(response => setCurso(response.data))
+                .catch(error => alert(error))
+        }
+        axios.get(`http://localhost:5000/Profesores/`)
+                .then(response => setProfesores(response.data))
+                .catch(error => alert(error))
     }
 
     function guardar(event) {
 
         event.preventDefault()
         event.stopPropagation()
-        /*if (id) {
-            axios.put(`http://localhost:5000/cursos/${id}`, curso)
+        if (id) {
+            axios.put(`http://localhost:5000/Cursos/${id}`, curso)
                 .then(response => {
                     alert("se ha modificado el registro")
                     history.push("/cursos/")
@@ -44,12 +46,12 @@ export default function CursoForm() {
                 .catch(error => alert(error))
         }
         else {
-            axios.post("http://localhost:5000/cursos/", curso)
+            axios.post("http://localhost:5000/Cursos/", curso)
                 .then(response => {
                     alert("se ha agregado el registro")
                     history.push("/cursos/")
                 }).catch(error => alert(error))
-        }*/
+        }
     }
 
     function handleOnChange(event, campo) {
@@ -93,7 +95,7 @@ export default function CursoForm() {
                         <div className="col-2">
                             <label className="col-12 text-left" htmlFor="id_cupo">Cupo:</label>
                             <input type="number" id="id_cupo" className="form-control col-12"
-                            value={curso.titulo} onChange={(event) => handleOnChange(event, 'cupo_total')} 
+                            value={curso.cupo_total} onChange={(event) => handleOnChange(event, 'cupo_total')} 
                             placeholder="0"/>
                         </div>
                     </div>
@@ -106,8 +108,9 @@ export default function CursoForm() {
                                 className="form-control" 
                                 aria-label=".form-select-lg example" 
                                 onChange={(event) => {handleOnChange(event, 'id_prof_tit') }}>
+                                     <option key="-1" value="Ninguno">Seleccione Profesor</option>
                                 {profesores.map(item => (
-                                    <option key={item} value={item}>{item}</option>
+                                    <option key={item.id} value={item.nombre}>{item.nombre}</option>
                                     ))
                                 }
                             </select>
