@@ -59,3 +59,14 @@ class AsistenciaRepo():
             Asistencia.alumno_id == alumno).all()
 
      
+
+    def buscarFechaCursoAlumno(self, desde, hasta,alumno,curso):
+        return Asistencia.query.filter(
+            Asistencia.fecha >= desde,
+            Asistencia.fecha <= hasta,
+            Asistencia.alumno_id == alumno,
+            Asistencia.curso_id == curso).all()
+
+
+
+
