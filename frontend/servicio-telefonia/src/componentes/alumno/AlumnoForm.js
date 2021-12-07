@@ -2,33 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useHistory } from "react-router";
 
-export default function CursoForm() {
-    const [curso, setCurso] = useState({
+export default function AlumnoForm() {
+    const [alumno, setAlumno] = useState({
         id: null,
         nombre: '',
-        cupo_total: '',
-        fecha_ini: '',
-        fecha_fin: '',
-        id_prof_tit: '',
-        id_prof_adj: '',
+        direccion: '',
+        edad: '',
+        sexo: '',
     });
-    const [profesores, setProfesores] = useState([])
     const { id } = useParams();
     const history = useHistory();
 
     useEffect(() => {
-        GetCurso();
+        GetAlumno();
     }, [])
 
-    function GetCurso() {
+    function GetAlumno() {
         // if (id) {
-        //     axios.get(`http://localhost:5000/cursos/${id}`)
-        //         .then(response => setCurso(response.data))
+        //     axios.get(`http://localhost:5000/alumnos/${id}`)
+        //         .then(response => setAlumno(response.data))
         //         .catch(error => alert(error))
         // }
-        // axios.get(`http://localhost:5000/Profesores/`)
-        //         .then(response => setCurso(response.data))
-        //         .catch(error => alert(error))
     }
 
     function guardar(event) {
@@ -36,25 +30,25 @@ export default function CursoForm() {
         event.preventDefault()
         event.stopPropagation()
         /*if (id) {
-            axios.put(`http://localhost:5000/cursos/${id}`, curso)
+            axios.put(`http://localhost:5000/alumnos/${id}`, alumno)
                 .then(response => {
                     alert("se ha modificado el registro")
-                    history.push("/cursos/")
+                    history.push("/alumnos/")
                 })
                 .catch(error => alert(error))
         }
         else {
-            axios.post("http://localhost:5000/cursos/", curso)
+            axios.post("http://localhost:5000/alumnos/", alumno)
                 .then(response => {
                     alert("se ha agregado el registro")
-                    history.push("/cursos/")
+                    history.push("/alumnos/")
                 }).catch(error => alert(error))
         }*/
     }
 
     function handleOnChange(event, campo) {
-        setCurso({
-            ...curso,
+        setAlumno({
+            ...alumno,
             [campo]: event.target.value
         })
     }
@@ -63,8 +57,8 @@ export default function CursoForm() {
         <>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="#">Cursos</a></li>
-                {id && <li class="breadcrumb-item active" aria-current="page">{curso.nombre}(Editando)</li>}
+                <li class="breadcrumb-item"><a href="#">Alumnos</a></li>
+                {id && <li class="breadcrumb-item active" aria-current="page">{alumno.nombre}(Editando)</li>}
                 {!id && <li class="breadcrumb-item active" aria-current="page">Nuevo</li>}
             </ol>
         </nav>
@@ -75,7 +69,7 @@ export default function CursoForm() {
                         <div className="col-8">
                             <label className="col-12 text-left" htmlFor="id_nombre">Nombre:</label>
                             <input type="text" id="id_nombre" className="form-control mb-3 col-12"
-                            value={curso.nombre} onChange={(event) => handleOnChange(event, 'nombre')} 
+                            value={alumno.nombre} onChange={(event) => handleOnChange(event, 'nombre')} 
                             placeholder="Nombre"/>
                         </div>
                     </div>
@@ -83,17 +77,17 @@ export default function CursoForm() {
                         <div className="col-3">
                             <label className="col-12 text-left">Inicio:</label>
                             <input className="form-control col-12" type="date"
-                            value={curso.fecha_ini} onChange={(event) => handleOnChange(event, 'fecha_ini')} />
+                            value={alumno.fecha_ini} onChange={(event) => handleOnChange(event, 'fecha_ini')} />
                         </div>
                         <div className="col-3">
                             <label className="col-12 text-left">Fin:</label>
                             <input className="form-control col-12" type="date"
-                            value={curso.fecha_fin} onChange={(event) => handleOnChange(event, 'fecha_fin')} />
+                            value={alumno.fecha_fin} onChange={(event) => handleOnChange(event, 'fecha_fin')} />
                         </div>
                         <div className="col-2">
                             <label className="col-12 text-left" htmlFor="id_cupo">Cupo:</label>
                             <input type="number" id="id_cupo" className="form-control col-12"
-                            value={curso.titulo} onChange={(event) => handleOnChange(event, 'cupo_total')} 
+                            value={alumno.titulo} onChange={(event) => handleOnChange(event, 'cupo_total')} 
                             placeholder="0"/>
                         </div>
                     </div>
@@ -102,7 +96,7 @@ export default function CursoForm() {
                             <label className="col-12 text-left">Profesor titular:</label>
                             <select 
                                 key={0} 
-                                value={curso.id_prof_tit} 
+                                value={alumno.id_prof_tit} 
                                 className="form-control" 
                                 aria-label=".form-select-lg example" 
                                 onChange={(event) => {handleOnChange(event, 'id_prof_tit') }}>
@@ -116,7 +110,7 @@ export default function CursoForm() {
                             <label className="col-12 text-left">Profesor auxiliar:</label>
                             <select 
                                 key={0} 
-                                value={curso.id_prof_adj} 
+                                value={alumno.id_prof_adj} 
                                 className="form-control" 
                                 aria-label=".form-select-lg example" 
                                 onChange={(event) => {handleOnChange(event, 'id_prof_adj') }}>
@@ -129,7 +123,7 @@ export default function CursoForm() {
                         </div>
                     </div>
                     <div className="row ml-2 mt-4 justify-content-center">
-                        <button onClick={() => history.push("/cursos/")} className="btn btn-outline-secondary mr-2">
+                        <button onClick={() => history.push("/alumnos/")} className="btn btn-outline-secondary mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-card-list mr-1" viewBox="0 0 18 18">
                                 <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
                                 <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
@@ -138,7 +132,7 @@ export default function CursoForm() {
                         </button>
                         {id && (
                             <>
-                            <button onClick={() => history.push(`/cursos/${id}`)} className="btn btn-outline-danger mr-2">
+                            <button onClick={() => history.push(`/alumnos/${id}`)} className="btn btn-outline-danger mr-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-card-list mr-1" viewBox="0 0 18 18">
                                 <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
                                 </svg>
