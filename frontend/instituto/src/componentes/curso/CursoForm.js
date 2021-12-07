@@ -38,22 +38,37 @@ export default function CursoForm() {
         event.preventDefault()
         event.stopPropagation()
         if (id) {
-            axios.put(`http://localhost:5000/Cursos/${id}`, curso)
+            if (curso.id_prof_tit == curso.id_prof_adj) 
+                {
+                    alert ("No puede ser el mismo profesor titular y adjunto")
+                }
+            else{
+                axios.put(`http://localhost:5000/Cursos/${id}`, curso)
                 .then(response => {
                     alert("Se editó "+curso.nombre)
                     history.push(`/cursos/${id}`)
                 })
                 .catch(error => alert("Hay campos sin completar!!!!!!!!"))
+            }
+         
         }
         else {
+            if (curso.id_prof_tit == curso.id_prof_adj) 
+            {
+                alert ("No puede ser el mismo profesor titular y adjunto")
+            }
+        else{
             axios.post("http://localhost:5000/Cursos/", curso)
-                .then(response => {
-                    alert("Se creó el curso: "+curso.nombre)
-                    history.push("/cursos/")
-                }).catch(error => alert("Hay campos sin completar!!!!!!!!"))
+            .then(response => {
+                alert("Se creó el curso: "+curso.nombre)
+                history.push("/cursos/")
+            }).catch(error => alert("Hay campos sin completar!!!!!!!!"))
+            
+        }
+           
         }
     }
-
+    
     function handleOnChange(event, campo) {
         setCurso({
             ...curso,
