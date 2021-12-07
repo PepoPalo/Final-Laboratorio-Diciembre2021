@@ -19,9 +19,10 @@ class AlumnoMateriaRepo():
     def get_by_numero(self, numero):
         return AlumnoMateria.query.get(numero)
 
-    def bajaalumno(self, numero):
+    def bajaalumno(self, numero, curso):
         a = AlumnoMateria.query.filter(            
-            AlumnoMateria.alumno_id  == numero).all()     
+            AlumnoMateria.alumno_id  == numero,
+            AlumnoMateria.curso_id == curso).all()     
         if a:
             for x in a:             
               db.session.delete(x)

@@ -15,6 +15,7 @@ export default function ProfesorCursoListado() {
     function getCursos() {
       axios.get(`http://localhost:5000/Cursos/buscar/${id}`)
         .then((response) => setLista(response.data))
+      
         .catch((error) => alert(error))
     }
   
