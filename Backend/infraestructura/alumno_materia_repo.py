@@ -32,9 +32,10 @@ class AlumnoMateriaRepo():
 
 
 
-    def bajacurso(self, numero):
+    def bajacurso(self, numero, alumno):
         a = AlumnoMateria.query.filter(            
-            AlumnoMateria.curso_id == numero).all()               
+            AlumnoMateria.curso_id == numero,
+            AlumnoMateria.alumno_id == alumno).all()               
         if a:
             for x in a:
                 db.session.delete(a)

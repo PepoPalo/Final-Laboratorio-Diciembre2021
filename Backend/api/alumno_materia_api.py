@@ -79,12 +79,12 @@ class AlumnoMateriaResource(Resource):
         if repo.modificar(id,data):
             return 'Relacion alumno-materia modificada', 200
         abort(404)
-@nsAlumnoMateria.route('/baja/curso/<int:id>')
+@nsAlumnoMateria.route('/baja/curso/<int:id>/<int:alumno>')
 class AlumnoMateriaResource(Resource):
     @nsAlumnoMateria.expect(modeloAlumnoMateria)
 
-    def put(self, id):
-        if repo.bajacurso(id):
+    def put(self, id,alumno):
+        if repo.bajacurso(id,alumno):
             
             return 'Relacion alumno-materia eliminada', 200            
         abort(400)
