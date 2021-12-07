@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import axios from 'axios';
 
 export default function AlumnoAsistenciaListado() {
+    let query = useQuery();
     const { id, curso_id} = useParams()
     const [lista, setLista] = useState([])
     const [alumno, setAlumno] = useState({})
     const [curso, setCurso] = useState({})
+    const [fechas, setFechas] = useState({
+        desde: new Date().toISOString().slice(0, 10),
+        hasta: new Date().toISOString().slice(0, 10)
+    })
 
     useEffect(() => {
       getAlumnos()
@@ -19,9 +24,27 @@ export default function AlumnoAsistenciaListado() {
         axios.get(`http://localhost:5000/Cursos/${curso_id}`)
         .then((response) => setCurso(response.data))
         .catch((error) => alert(error))
-        axios.get(`http://localhost:5000/Asistencia/asistencia/alumno/${id}`)
-        .then((response) => setLista(response.data))
-        .catch((error) => alert(error))
+        if (query.get("desde") != null){
+            setFechas({
+                desde: query.get("desde"),
+                hasta: query.get("hasta")
+            })
+            console.log(`http://localhost:5000/Asistencias/buscar/alumnocurso/${query.get("desde")}/${query.get("hasta")}/${id}/${curso_id}`)
+            axios.get(`http://localhost:5000/Asistencias/buscar/alumnocurso/${query.get("desde")}/${query.get("hasta")}/${id}/${curso_id}`)
+            .then((response) => setLista(response.data))
+            .catch()
+        }else{
+            axios.get(`http://localhost:5000/Asistencias/buscar/alumnocurso/${fechas.desde}/${fechas.hasta}/${id}/${curso_id}`)
+            .then((response) => setLista(response.data))
+            .catch()
+        }
+    }
+
+    function handleOnChange(event, campo) {
+        setFechas({
+            ...fechas,
+            [campo]: event.target.value
+        })
     }
 
     return (
@@ -36,34 +59,40 @@ export default function AlumnoAsistenciaListado() {
         </nav>
         <div className="container card my-3">
             <div className="card-header row justify-content-between">
-                <h1 className="col-md-3">
-                    Alumnos
+                <h1 className="col-md-6">
+                    {curso.nombre} - Asistencia
                 </h1>
-                <Link to="/alumnos/create" className="btn btn-outline-dark text-center align-middle btn-sm ml-5 my-3 col-md-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 20 20">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg>
-                    Crear</Link>
+            </div>
+            <div className="row card-body">
+                <div className="col-3">
+                    <label className="col-12 text-left">Desde:</label>
+                    <input className="form-control col-12" type="date"
+                    value={fechas.desde} onChange={(event) => handleOnChange(event, 'desde')} />
+                </div>
+                <div className="col-3">
+                    <label className="col-12 text-left">Hasta:</label>
+                    <input className="form-control col-12" type="date"
+                    value={fechas.hasta} onChange={(event) => handleOnChange(event, 'hasta')} />
+                </div>
+                <div className="col-3">
+                    <Link to={"/alumnos/"+id+"/asistencia/"+curso_id+"?desde="+fechas.desde+"&hasta="+fechas.hasta} className="btn btn-primary align-middle">Buscar</Link>
+                </div>
             </div>
             <div className="bg-white card-body p-0 row">
                 <table className="table">
                     <thead className="table-secondary">
                         <tr>
-                        <th className="justify-content-start" scope="col">Libreta Estudiantil</th>
-                        <th className="text-center" scope="col">Alumno</th>
-                        <th className="text-center" scope="col"></th>
+                        <th className="justify-content-start" scope="col">Fecha</th>
+                        <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {lista.length > 0 && (
-                            lista.map(alumno => (
+                            lista.map(item => (
                                 <>
-                                <tr key={alumno.id}>
-                                    <th >{alumno.id}</th>
-                                    <td className="text-center">{alumno.nombre}</td>
-                                    <td className="text-right ">
-                                    </td>
+                                <tr key={item.id}>
+                                    <td className="text-center">{item.fecha}</td>
+                                    <td className="text-center">Asistió</td>
                                 </tr>
                             </>))
                         )}
@@ -80,4 +109,10 @@ export default function AlumnoAsistenciaListado() {
         </div>
         </>
     )
+}
+
+function useQuery() {
+    const { search } = useLocation();
+  
+    return React.useMemo(() => new URLSearchParams(search), [search]);
 }

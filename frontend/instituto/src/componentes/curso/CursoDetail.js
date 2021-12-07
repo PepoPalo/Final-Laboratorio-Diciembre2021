@@ -72,7 +72,6 @@ export default function CursoDetail(){
                         <h5 className="col-12 text-left">{curso.cupo_total}</h5>
                     </div>
                 </div>
-                <CursoAlumnoListado />
             </div>
         </div>
             
