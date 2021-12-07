@@ -120,7 +120,7 @@ class CursoResource(Resource):
             return l, 200
         abort(404)
 
-@nsCurso.route('/buscar/<int:profe_id>/')
+@nsCurso.route('/buscar/<string:profe_id>/')
 class CursoResource(Resource):
     @nsCurso.marshal_list_with(modeloCurso)
     def get(self, profe_id):
