@@ -7,13 +7,13 @@ export default function AlumnoCursoListado() {
     const { id } = useParams()
 
     useEffect(() => {
-      getAlumnos()
+      getCursos()
     }, [])
   
-    function getAlumnos() {
-    //   axios.get("http://localhost:5000/alumnos/")
-    //     .then((response) => setLista(response.data))
-    //     .catch((error) => alert(error))
+    function getCursos() {
+      axios.get(`http://localhost:5000/Cursos/buscar/cursoalumno/${id}`)
+        .then((response) => setLista(response.data))
+        .catch()
     }
   
   
