@@ -2,6 +2,7 @@ from sqlalchemy.orm import session
 from sqlalchemy.sql.elements import Null
 from dominio.alumnomateria import AlumnoMateria
 from dominio.curso import Curso
+from dominio.profesor import Profesor
 
 
 from datos import db
@@ -23,8 +24,10 @@ class CursosRepo():
     def get_by_id(self, id):
         return Curso.query.get(id)
     def get_by_titular(self, profe_id):
-        # return Curso.query(Curso, Equipo, Linea, Plan).join(Equipo.modelo).join(Linea.numero).join(Plan.nombre).filter(Curso.id == id, Curso.linea_id == Linea.id).all()
-         return Curso.query.filter(Curso.id_prof_tit== profe_id).all()
+             respuesta =  db.session.query(Curso).select_from(Profesor,Curso).filter( Profesor.nombre == Curso.id_prof_tit, Profesor.id == profe_id).all()
+                
+             return respuesta
+        #  Curso.query.filter(Curso.id_prof_tit== profe_id).all()
     
     def get_by_alumno(self, alumno):
         respuesta = db.session.query(Curso).select_from(Curso).join(AlumnoMateria).filter( AlumnoMateria.alumno_id ==alumno).all()

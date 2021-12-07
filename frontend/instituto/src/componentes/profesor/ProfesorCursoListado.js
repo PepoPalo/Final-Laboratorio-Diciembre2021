@@ -5,26 +5,27 @@ import axios from 'axios';
 export default function ProfesorCursoListado() {
     const [lista, setLista] = useState([])
     // const [curso, setCurso] = useState({})
-    const { id } = useParams()
+    const {id } = useParams()
+   // const { nombre } = useParams()
 
     useEffect(() => {
-      getAlumnos()
+      getCursos()
     }, [])
   
-    function getAlumnos() {
-    //   axios.get(`http://localhost:5000/Alumnos/buscar/${id}`)
-    //     .then((response) => setLista(response.data))
-    //     .catch((error) => alert(error))
+    function getCursos() {
+      axios.get(`http://localhost:5000/Cursos/buscar/${id}`)
+        .then((response) => setLista(response.data))
+        .catch((error) => alert(error))
     }
   
   
-    function borrar(imei) {
-    //   axios.put(`http://localhost:5000/alumnos/baja/${imei}`)
-    //     .then((response) => {
+    function borrar(id) {
+      axios.put(`http://localhost:5000/Cursos/baja/${id}`)
+        .then((response) => {
           alert("Registro borrado correctamente")
-        //   getAlumnos()
-        // })
-        // .catch(error => alert(error))
+          getCursos()
+        })
+        .catch(error => alert(error))
     }
 
 
@@ -34,7 +35,7 @@ export default function ProfesorCursoListado() {
                 <table className="table">
                     <thead>
                         <tr className="table-active">
-                            <th><h3>Alumnos</h3></th>
+                            <th><h3>Cursos</h3></th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                         </tr>
@@ -48,13 +49,13 @@ export default function ProfesorCursoListado() {
                     </thead>
                     <tbody>
                         {lista.length > 0 && (
-                            lista.map(alumno => (
+                            lista.map(curso => (
                                 <>
-                                <tr key={alumno.imei}>
-                                    <th scope="row">{alumno.id}</th>
-                                    <td className="text-center">{alumno.nombre}</td>
+                                <tr key={curso.id}>
+                                    <th scope="row">{curso.id}</th>
+                                    <td className="text-center">{curso.nombre}</td>
                                     <td className="text-center">
-                                        <button className="btn btn-outline-danger mr-2" onClick={() => borrar(alumno.id)}>Dar Baja</button>
+                                        <button className="btn btn-outline-danger mr-2" onClick={() => borrar(curso.id)}>Dar Baja</button>
                                     </td>
                                 </tr>
                                 
