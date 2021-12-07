@@ -6,6 +6,7 @@ import AlumnoListado from './componentes/alumno/AlumnoListado';
 
 import CursoAlumnoListado from './componentes/curso/CursoAlumnoListado';
 import CursoDetail from './componentes/curso/CursoDetail';
+import CursoForm from './componentes/curso/CursoForm';
 import CursoListado from './componentes/curso/CursoListado';
 
 import ProfesorDetail from './componentes/profesor/ProfesorDetail';
@@ -50,11 +51,13 @@ export default function App() {
             <Route path="/alumnos" component={AlumnoListado}></Route>
 
             {/* Equipos */}
+            <Route path="/cursos/create/" component={CursoForm}></Route>
             <Route path="/cursos/:id/alumnos/" component={CursoAlumnoListado}></Route>
             <Route path="/cursos/:id/" component={CursoDetail}></Route>
             <Route path="/cursos/" component={CursoListado}></Route>
 
             {/* Linea */}
+            <Route path="/profesores/create/" component={ProfesorForm}></Route>
             <Route path="/profesores/:id/edit" component={ProfesorForm}></Route>
             <Route path="/profesores/:id/" component={ProfesorDetail}></Route>
             <Route path="/profesores" component={ProfesorListado}></Route>
