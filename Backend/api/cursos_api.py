@@ -40,7 +40,7 @@ nuevoCursoParser.add_argument('cupo_total', type=int, required=True)
 nuevoCursoParser.add_argument('fecha_ini', type=date, required=True)
 nuevoCursoParser.add_argument('fecha_fin', type=date, required=True)
 nuevoCursoParser.add_argument('id_prof_tit', type=str, required=True)
-nuevoCursoParser.add_argument('id_prof_adj', type=str, required=True)
+nuevoCursoParser.add_argument('id_prof_adj', type=str, required=False)
 nuevoCursoParser.add_argument('fecha_baja', type=date, required=False)
 
 
@@ -67,6 +67,12 @@ class CursoResource(Resource):
         if p:
             return p, 200
         abort(500)
+    
+
+
+
+@nsCurso.route('/<int:id>')
+class CursoResource(Resource):
     @nsCurso.expect(modeloCurso)
     def put(self, id):
         data = editarCursoParser.parse_args()
@@ -74,10 +80,6 @@ class CursoResource(Resource):
             return 'Curso actualizado', 200
         abort(404)
 
-
-
-@nsCurso.route('/<int:id>')
-class CursoResource(Resource):
     @nsCurso.marshal_with(modeloCurso)
     def get(self, id):
         p = repo.get_by_id(id)

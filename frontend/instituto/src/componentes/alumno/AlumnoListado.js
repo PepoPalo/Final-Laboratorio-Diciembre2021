@@ -2,21 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-var alumnos =[
-    {
-        id: 1,
-        nombre: "Pedro Palomino",
-    },
-    {
-        id: 2,
-        nombre: "Milagros Pavón",
-    },
-    {
-        id: 3,
-        nombre: "Josué Main",
-    }
-]
-
 export default function AlumnoListado() {
     const [lista, setLista] = useState([])
 
@@ -55,7 +40,7 @@ export default function AlumnoListado() {
                 <h1 className="col-md-3">
                     Alumnos
                 </h1>
-                <Link to="/alumnos/crear" className="btn btn-outline-dark text-center align-middle btn-sm ml-5 my-3 col-md-1">
+                <Link to="/alumnos/create" className="btn btn-outline-dark text-center align-middle btn-sm ml-5 my-3 col-md-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 20 20">
                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -78,9 +63,10 @@ export default function AlumnoListado() {
                                 <tr key={alumno.id}>
                                     <th >{alumno.id}</th>
                                     <td className="text-center">{alumno.nombre}</td>
-                                    <td className="text-center">
+                                    <td className="text-right ">
                                         <Link className="btn btn-outline-primary" to={"/alumnos/" + alumno.id}>DETALLE</Link> &nbsp;
-                                        <button className="btn btn-outline-danger mr-2" onClick={() => borrar(alumno.id)}>Dar Baja</button>
+                                        <Link className="btn btn-outline-primary mr-2" to={"/alumnos/" + alumno.id + "/inscribir"}>Inscribir a curso</Link>
+                                        <button className="btn btn-outline-danger mr-2" onClick={() => borrar(alumno.id)}>Baja</button>
                                     </td>
                                 </tr>
                             </>))

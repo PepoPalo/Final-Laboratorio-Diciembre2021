@@ -20,7 +20,7 @@ modeloAlumnoSinID = Model('AlumnoSinID',{
 
 modeloAlumno = modeloAlumnoSinID.clone('Alumno',{
     'id': fields.Integer(),
-    'cursos': fields.Nested(modeloCurso, skip_none=True)
+    #'cursos': fields.Nested(modeloCurso, skip_none=True)
 })
 
 # modeloBusqueda = Model('BusquedaFechas', {

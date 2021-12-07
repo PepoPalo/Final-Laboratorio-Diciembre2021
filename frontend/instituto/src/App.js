@@ -2,7 +2,10 @@ import './App.css';
 import { Link, Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
 import AlumnoDetail from './componentes/alumno/AlumnoDetail';
+import AlumnoForm from './componentes/alumno/AlumnoForm';
 import AlumnoListado from './componentes/alumno/AlumnoListado';
+
+import AlumnoCursoForm from './componentes/alumnocurso/AlumnoCursoForm';
 
 import CursoAlumnoListado from './componentes/curso/CursoAlumnoListado';
 import CursoDetail from './componentes/curso/CursoDetail';
@@ -46,7 +49,9 @@ export default function App() {
           <Switch>
 
             {/* Alumnos */}
-            {/*<Route path="/alumnos/crear" component={AlumnoForm}></Route>*/}
+            <Route path="/alumnos/create" component={AlumnoForm}></Route>
+            <Route path="/alumnos/:id/inscribir" component={AlumnoCursoForm}></Route>
+            <Route path="/alumnos/:id/edit" component={AlumnoForm}></Route>
             <Route path="/alumnos/:id/" component={AlumnoDetail}></Route>
             <Route path="/alumnos" component={AlumnoListado}></Route>
 

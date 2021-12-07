@@ -36,13 +36,15 @@ export default function AlumnoCursoListado() {
                             <th><h3>Cursos</h3></th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
+                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <thead className=" table-secondary">
                         <tr>
-                        <th scope="col">ID</th>
-                        <th className="text-center" scope="col">Nombre</th>
-                        <th className="text-center" scope="col">Acciones</th>
+                            <th scope="col">ID</th>
+                            <th className="text-center" scope="col">Nombre</th>
+                            <th className="text-center" scope="col">&nbsp;</th>
+                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,6 +54,7 @@ export default function AlumnoCursoListado() {
                                 <tr key={curso.id}>
                                     <th scope="row">{curso.id}</th>
                                     <td className="text-center">{curso.nombre}</td>
+                                    <td>&nbsp;</td>
                                     <td className="text-center">
                                         <button className="btn btn-outline-danger mr-2" onClick={() => borrar(curso.id)}>Dar Baja</button>
                                     </td>

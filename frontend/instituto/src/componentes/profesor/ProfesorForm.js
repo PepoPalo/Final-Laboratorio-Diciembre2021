@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useHistory } from "react-router";
+import axios from 'axios';
 
 export default function ProfesorForm() {
     const [profesor, setProfesor] = useState({
         id: null,
-        nombre: '',
-        direccion: '',
-        titulo: '',
+        nombre: null,
+        direccion: null,
+        titulo: null,
     });
     const { id } = useParams();
     const history = useHistory();
@@ -17,27 +18,32 @@ export default function ProfesorForm() {
     }, [])
 
     function GetProfesor() {
+        if (id){
+            axios.get(`http://localhost:5000/Profesores/${id}`)
+                    .then(response => setProfesor(response.data))
+                    .catch(error => alert("No se pudo obtener los datos del profesor."))
+        }
     }
 
     function guardar(event) {
 
         event.preventDefault()
         event.stopPropagation()
-        /*if (id) {
-            axios.put(`http://localhost:5000/profesores/${id}`, profesor)
+        if (id) {
+            axios.put(`http://localhost:5000/Profesores/${id}`, profesor)
                 .then(response => {
-                    alert("se ha modificado el registro")
-                    history.push("/profesores/")
+                    alert("Se editó al profesor "+profesor.nombre)
+                    history.push(`/profesores/${id}`)
                 })
-                .catch(error => alert(error))
+                .catch(error => alert("No se pudo editar el profesor"))
         }
         else {
-            axios.post("http://localhost:5000/profesores/", profesor)
+            axios.post("http://localhost:5000/Profesores/", profesor)
                 .then(response => {
-                    alert("se ha agregado el registro")
+                    alert("Se agregó un nuevo profesor!!!")
                     history.push("/profesores/")
-                }).catch(error => alert(error))
-        }*/
+                }).catch(error => alert("Existen campos vacíos, por favor rellene los campos requeridos."))
+        }
     }
 
     function handleOnChange(event, campo) {
@@ -51,7 +57,7 @@ export default function ProfesorForm() {
         <>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="#">Profesores</a></li>
+                <li class="breadcrumb-item"><Link to="/profesores/">Profesores</Link></li>
                 {id && <li class="breadcrumb-item active" aria-current="page">{profesor.nombre}(Editando)</li>}
                 {!id && <li class="breadcrumb-item active" aria-current="page">Nuevo</li>}
             </ol>
@@ -61,13 +67,13 @@ export default function ProfesorForm() {
                 <form onSubmit={(event) => guardar(event)}>
                     <div className="row">
                         <div className="col-5">
-                            <label className="col-12 text-left" htmlFor="id_nombre">Nombre:</label>
+                            <label className="col-12 text-left" htmlFor="id_nombre">Nombre:  <small class="text-muted">(requerido)</small></label>
                             <input type="text" id="id_nombre" className="form-control mb-3 col-12"
                             value={profesor.nombre} onChange={(event) => handleOnChange(event, 'nombre')} 
                             placeholder="Nombre"/>
                         </div>
                         <div className="col-4">
-                            <label className="col-12 text-left" htmlFor="id_titulo">Título:</label>
+                            <label className="col-12 text-left" htmlFor="id_titulo">Título:  <small class="text-muted">(requerido)</small></label>
                             <input type="text" id="id_titulo" className="form-control col-12"
                             value={profesor.titulo} onChange={(event) => handleOnChange(event, 'titulo')} 
                             placeholder="Título"/>
@@ -75,7 +81,7 @@ export default function ProfesorForm() {
                     </div>
                     <div className="row">
                         <div className="col-5">
-                            <label className="col-12 text-left">Dirección:</label>
+                            <label className="col-12 text-left">Dirección  <small class="text-muted">(requerido)</small></label>
                             <input className="form-control col-12"
                             value={profesor.direccion} onChange={(event) => handleOnChange(event, 'direccion')} 
                             placeholder="Dirección"/>

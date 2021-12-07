@@ -7,11 +7,11 @@ import axios from 'axios';
 export default function CursoForm() {
     const [curso, setCurso] = useState({
         id: null,
-        nombre: '',
-        cupo_total: '',
-        fecha_ini: '',
-        fecha_fin: '',
-        id_prof_tit: '',
+        nombre: null,
+        cupo_total: null,
+        fecha_ini: null,
+        fecha_fin: null,
+        id_prof_tit: null,
         id_prof_adj: 'Ninguno',
     });
     const [profesores, setProfesores] = useState([])
@@ -40,17 +40,17 @@ export default function CursoForm() {
         if (id) {
             axios.put(`http://localhost:5000/Cursos/${id}`, curso)
                 .then(response => {
-                    alert("se ha modificado el registro")
-                    history.push("/cursos/")
+                    alert("Se editó "+curso.nombre)
+                    history.push(`/cursos/${id}`)
                 })
-                .catch(error => alert(error))
+                .catch(error => alert("Hay campos sin completar!!!!!!!!"))
         }
         else {
             axios.post("http://localhost:5000/Cursos/", curso)
                 .then(response => {
-                    alert("se ha agregado el registro")
+                    alert("Se creó el curso: "+curso.nombre)
                     history.push("/cursos/")
-                }).catch(error => alert(error))
+                }).catch(error => alert("Hay campos sin completar!!!!!!!!"))
         }
     }
 
@@ -75,7 +75,7 @@ export default function CursoForm() {
                 <form onSubmit={(event) => guardar(event)}>
                     <div className="row justify-content-center">
                         <div className="col-8">
-                            <label className="col-12 text-left" htmlFor="id_nombre">Nombre:</label>
+                            <label className="col-12 text-left" htmlFor="id_nombre">Nombre:  <small class="text-muted">(requerido)</small></label>
                             <input type="text" id="id_nombre" className="form-control mb-3 col-12"
                             value={curso.nombre} onChange={(event) => handleOnChange(event, 'nombre')} 
                             placeholder="Nombre"/>
@@ -83,17 +83,17 @@ export default function CursoForm() {
                     </div>
                     <div className="row mb-3 justify-content-center">
                         <div className="col-3">
-                            <label className="col-12 text-left">Inicio:</label>
+                            <label className="col-12 text-left">Inicio:  <small class="text-muted">(requerido)</small></label>
                             <input className="form-control col-12" type="date"
                             value={curso.fecha_ini} onChange={(event) => handleOnChange(event, 'fecha_ini')} />
                         </div>
                         <div className="col-3">
-                            <label className="col-12 text-left">Fin:</label>
+                            <label className="col-12 text-left">Fin:  <small class="text-muted">(requerido)</small></label>
                             <input className="form-control col-12" type="date"
                             value={curso.fecha_fin} onChange={(event) => handleOnChange(event, 'fecha_fin')} />
                         </div>
                         <div className="col-2">
-                            <label className="col-12 text-left" htmlFor="id_cupo">Cupo:</label>
+                            <label className="col-12 text-left" htmlFor="id_cupo">Cupo:  <small class="text-muted">(requerido)</small></label>
                             <input type="number" id="id_cupo" className="form-control col-12"
                             value={curso.cupo_total} onChange={(event) => handleOnChange(event, 'cupo_total')} 
                             placeholder="0"/>
@@ -101,7 +101,7 @@ export default function CursoForm() {
                     </div>
                     <div className="row justify-content-center">
                         <div className="col-4">
-                            <label className="col-12 text-left">Profesor titular:</label>
+                            <label className="col-12 text-left">Profesor titular:  <small class="text-muted">(requerido)</small></label>
                             <select 
                                 key={0} 
                                 value={curso.id_prof_tit} 

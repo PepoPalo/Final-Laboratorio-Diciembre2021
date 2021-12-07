@@ -19,7 +19,7 @@ class AlumnosRepo():
         return e
     
     def get_by_id(self, id):
-        respuesta = db.session.query(Alumno).select_from(Alumno).join(AlumnoMateria).join(Curso).filter( Alumno.id==id).all()
+        respuesta = Alumno.query.get(id) #db.session.query(Alumno).select_from(Alumno).join(AlumnoMateria).join(Curso).filter( Alumno.id==id).all()
         print (respuesta)
         #  filter( Alumno.id==AlumnoMateria.alumno_id, AlumnoMateria.curso_id==Curso.id).
         return respuesta

@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { useHistory } from "react-router";
+import { Link, useParams, useHistory } from "react-router-dom";
+import axios from 'axios';
 
 export default function AlumnoForm() {
     const [alumno, setAlumno] = useState({
         id: null,
-        nombre: '',
-        direccion: '',
-        edad: '',
-        sexo: '',
+        nombre: null,
+        direccion: null,
+        edad: null,
+        sexo: null,
     });
+    const sexos = [
+        "M",
+        "F",
+    ]
     const { id } = useParams();
     const history = useHistory();
 
@@ -18,32 +22,33 @@ export default function AlumnoForm() {
     }, [])
 
     function GetAlumno() {
-        // if (id) {
-        //     axios.get(`http://localhost:5000/alumnos/${id}`)
-        //         .then(response => setAlumno(response.data))
-        //         .catch(error => alert(error))
-        // }
+        if (id) {
+            axios.get(`http://localhost:5000/Alumnos/${id}`)
+                .then(response => setAlumno(response.data))
+                .catch(error => alert(error))
+        }
     }
 
     function guardar(event) {
-
         event.preventDefault()
         event.stopPropagation()
-        /*if (id) {
-            axios.put(`http://localhost:5000/alumnos/${id}`, alumno)
+
+        if (id) {
+            axios.put(`http://localhost:5000/Alumnos/${id}`, alumno)
                 .then(response => {
-                    alert("se ha modificado el registro")
-                    history.push("/alumnos/")
+                    alert("Se editó a " + alumno.nombre)
+                    history.push(`/alumnos/${id}`)
                 })
                 .catch(error => alert(error))
         }
         else {
-            axios.post("http://localhost:5000/alumnos/", alumno)
+            axios.post("http://localhost:5000/Alumnos/", alumno)
                 .then(response => {
-                    alert("se ha agregado el registro")
-                    history.push("/alumnos/")
-                }).catch(error => alert(error))
-        }*/
+                    alert("Nuevo alumno/a agregado!!!!!!!!")
+                    console.log(response.data)
+                    history.push(`/alumnos/${id}`)
+                }).catch(error => alert("Hay campos sin completar!!!!!!!!"))
+        }
     }
 
     function handleOnChange(event, campo) {
@@ -57,7 +62,7 @@ export default function AlumnoForm() {
         <>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="#">Alumnos</a></li>
+                <li class="breadcrumb-item"><Link to="/alumnos/">Alumnos</Link></li>
                 {id && <li class="breadcrumb-item active" aria-current="page">{alumno.nombre}(Editando)</li>}
                 {!id && <li class="breadcrumb-item active" aria-current="page">Nuevo</li>}
             </ol>
@@ -66,60 +71,41 @@ export default function AlumnoForm() {
             <div className="card-body">
                 <form onSubmit={(event) => guardar(event)}>
                     <div className="row justify-content-center">
-                        <div className="col-8">
-                            <label className="col-12 text-left" htmlFor="id_nombre">Nombre:</label>
+                        <div className="col-5">
+                            <label className="col-12 text-left" htmlFor="id_nombre">Nombre:  <small class="text-muted">(requerido)</small></label>
                             <input type="text" id="id_nombre" className="form-control mb-3 col-12"
                             value={alumno.nombre} onChange={(event) => handleOnChange(event, 'nombre')} 
                             placeholder="Nombre"/>
-                        </div>
-                    </div>
-                    <div className="row mb-3 justify-content-center">
-                        <div className="col-3">
-                            <label className="col-12 text-left">Inicio:</label>
-                            <input className="form-control col-12" type="date"
-                            value={alumno.fecha_ini} onChange={(event) => handleOnChange(event, 'fecha_ini')} />
+                            
                         </div>
                         <div className="col-3">
-                            <label className="col-12 text-left">Fin:</label>
-                            <input className="form-control col-12" type="date"
-                            value={alumno.fecha_fin} onChange={(event) => handleOnChange(event, 'fecha_fin')} />
-                        </div>
-                        <div className="col-2">
-                            <label className="col-12 text-left" htmlFor="id_cupo">Cupo:</label>
-                            <input type="number" id="id_cupo" className="form-control col-12"
-                            value={alumno.titulo} onChange={(event) => handleOnChange(event, 'cupo_total')} 
-                            placeholder="0"/>
-                        </div>
-                    </div>
-                    <div className="row justify-content-center">
-                        <div className="col-4">
-                            <label className="col-12 text-left">Profesor titular:</label>
+                            <label className="col-12 text-left">Sexo:  <small class="text-muted">(requerido)</small></label>
                             <select 
                                 key={0} 
-                                value={alumno.id_prof_tit} 
+                                value={alumno.sexo} 
                                 className="form-control" 
                                 aria-label=".form-select-lg example" 
-                                onChange={(event) => {handleOnChange(event, 'id_prof_tit') }}>
-                                {profesores.map(item => (
-                                    <option key={item} value={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                        <div className="col-4">
-                            <label className="col-12 text-left">Profesor auxiliar:</label>
-                            <select 
-                                key={0} 
-                                value={alumno.id_prof_adj} 
-                                className="form-control" 
-                                aria-label=".form-select-lg example" 
-                                onChange={(event) => {handleOnChange(event, 'id_prof_adj') }}>
-                                    <option key="-1" value="Ninguno">Ninguno</option>
-                                    {profesores.map(item => (
-                                        <option key={item.id} value={item.nombre}>{item.nombre}</option>
+                                onChange={(event) => {handleOnChange(event, 'sexo') }}>
+                                    <option key={-1} value="">Seleccione una opción</option>
+                                    {sexos.map(item => (
+                                        <option key={item} value={item}>{item}</option>
                                         ))
                                     }
                             </select>
+                        </div>
+                    </div>
+                    <div className="row mb-3 justify-content-center">
+                        <div className="col-6">
+                            <label className="col-12 text-left" htmlFor="id_nombre">Dirección:  <small class="text-muted">(requerido)</small></label>
+                            <input type="text" id="id_nombre" className="form-control mb-3 col-12"
+                            value={alumno.direccion} onChange={(event) => handleOnChange(event, 'direccion')} 
+                            placeholder="Dirección"/>
+                        </div>
+                        <div className="col-2">
+                            <label className="col-12 text-left" htmlFor="id_cupo">Edad:  <small class="text-muted">(requerido)</small></label>
+                            <input type="number" id="id_cupo" className="form-control col-12"
+                            value={alumno.edad} onChange={(event) => handleOnChange(event, 'edad')} 
+                            placeholder="0"/>
                         </div>
                     </div>
                     <div className="row ml-2 mt-4 justify-content-center">

@@ -43,7 +43,7 @@ export default function ProfesorCursoListado() {
                         <tr>
                         <th scope="col">ID</th>
                         <th className="text-center" scope="col">Nombre</th>
-                        <th className="text-center" scope="col">Acciones</th>
+                        <th className="text-center" scope="col">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>

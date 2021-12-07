@@ -4,7 +4,6 @@ import axios from 'axios';
 
 export default function CursoAlumnoListado() {
     const [lista, setLista] = useState([])
-    // const [curso, setCurso] = useState({})
     const { id } = useParams()
 
     useEffect(() => {
@@ -14,7 +13,7 @@ export default function CursoAlumnoListado() {
     function getAlumnos() {
       axios.get(`http://localhost:5000/Alumnos/buscar/${id}`)
         .then((response) => setLista(response.data))
-        .catch((error) => alert(error))
+        .catch()
     }
   
   
@@ -37,13 +36,15 @@ export default function CursoAlumnoListado() {
                             <th><h3>Alumnos</h3></th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
+                            <th>Inscriptos: {lista.length}</th>
                         </tr>
                     </thead>
                     <thead className=" table-secondary">
                         <tr>
-                        <th scope="col">ID</th>
-                        <th className="text-center" scope="col">Nombre</th>
-                        <th className="text-center" scope="col">Acciones</th>
+                            <th scope="col">ID</th>
+                            <th className="text-center" scope="col">Nombre</th>
+                            <th className="text-center" scope="col"></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,6 +54,7 @@ export default function CursoAlumnoListado() {
                                 <tr key={alumno.imei}>
                                     <th scope="row">{alumno.id}</th>
                                     <td className="text-center">{alumno.nombre}</td>
+                                    <td></td>
                                     <td className="text-center">
                                         <button className="btn btn-outline-danger mr-2" onClick={() => borrar(alumno.id)}>Dar Baja</button>
                                     </td>

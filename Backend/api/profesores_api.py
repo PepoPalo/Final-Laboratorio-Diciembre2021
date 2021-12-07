@@ -57,8 +57,6 @@ class ProfesorResource(Resource):
             return p, 200
         abort(404)
     
-    
-    
     @nsProfesor.expect(modeloProfesor)
     def put(self, id):
         data = editarProfesorParser.parse_args()
