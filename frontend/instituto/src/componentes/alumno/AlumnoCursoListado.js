@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import axios from 'axios';
 
 export default function AlumnoCursoListado() {
     const [lista, setLista] = useState([])
     const { id } = useParams()
+    const history = useHistory()
 
     useEffect(() => {
       getCursos()
@@ -17,13 +18,13 @@ export default function AlumnoCursoListado() {
     }
   
   
-    function borrar(imei) {
-    //   axios.put(`http://localhost:5000/alumnos/baja/${imei}`)
-    //     .then((response) => {
-          alert("Registro borrado correctamente")
-        //   getAlumnos()
-        // })
-        // .catch(error => alert(error))
+    function borrar() {
+      axios.put(`http://localhost:5000/AlumnoMateria/baja/alumno/${id}`)
+        .then((response) => {
+            alert("Dado de baja del curso")
+            history.push(`/alumnos/${id}`)
+        })
+        .catch(error => alert("No se pudo dar de baja"))
     }
 
 
