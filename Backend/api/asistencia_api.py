@@ -110,8 +110,8 @@ class AsistenciasResource(Resource):
 @nsAsistencia.route('/buscar/alumnocurso/<string:desde>/<string:hasta>/<int:alumno>/<int:curso>')
 class AsistenciasResource(Resource):
     @nsAsistencia.marshal_list_with(modeloAsistencia )
-    def get(self, desde, hasta, alumno):
-        l = repo.buscarFechaCursoAlumno(desde, hasta,alumno)
+    def get(self, desde, hasta, alumno,curso):
+        l = repo.buscarFechaCursoAlumno(desde, hasta,alumno,curso)
         if l:
          return l, 200
         abort(404)
