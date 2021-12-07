@@ -30,12 +30,25 @@ export default function CursoAlumnoForm() {
     function guardar(event) {
         event.preventDefault()
         event.stopPropagation()
+        if (alumnoCurso.alumno_id ==null || alumnoCurso.curso_id == null)
+        {
+            alert("Debe seleccionar una opcion")
+        }
+        else {
 
         axios.post("http://localhost:5000/AlumnoMateria/", alumnoCurso)
             .then(response => {
                 alert("Inscripto con éxito!!!")
                 history.push(`/cursos/${id}`)
-            }).catch(error => alert("No se eligió el alumno"))
+            }).catch((error) => {
+                if (error.status == 400) {
+                  alert("seleccione un curso!!");
+                }
+                else {
+                    alert("El alumno ya está inscripto!")
+                }
+              });
+            }
     }
 
     function handleOnChange(event, campo) {
