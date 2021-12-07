@@ -67,6 +67,7 @@ export default function CursoListado() {
                                     <td className="text-center">{curso.fecha_fin}</td>
                                     <td className="text-center">
                                         <Link className="btn btn-outline-primary" to={"/cursos/" + curso.id}>DETALLE</Link> &nbsp;
+                                        <Link className="btn btn-outline-primary mr-2" to={"/cursos/" + curso.id + "/alumnos"}>Alumnos</Link>
                                         <button className="btn btn-outline-danger mr-2" onClick={() => borrar(curso.id)}>Dar Baja</button>
                                     </td>
                                 </tr>

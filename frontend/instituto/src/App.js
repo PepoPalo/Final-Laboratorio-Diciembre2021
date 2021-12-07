@@ -1,6 +1,7 @@
 import './App.css';
 import { Link, Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
+import AlumnoAsistenciaListado from './componentes/alumno/AlumnoAsistenciaListado';
 import AlumnoDetail from './componentes/alumno/AlumnoDetail';
 import AlumnoForm from './componentes/alumno/AlumnoForm';
 import AlumnoListado from './componentes/alumno/AlumnoListado';
@@ -8,6 +9,7 @@ import AlumnoListado from './componentes/alumno/AlumnoListado';
 import AlumnoCursoForm from './componentes/alumnocurso/AlumnoCursoForm';
 import CursoAlumnoForm from './componentes/alumnocurso/CursoAlumnoForm';
 
+import CursoAlumnoListado from './componentes/curso/CursoAlumnoListado';
 import CursoDetail from './componentes/curso/CursoDetail';
 import CursoForm from './componentes/curso/CursoForm';
 import CursoListado from './componentes/curso/CursoListado';
@@ -50,6 +52,7 @@ export default function App() {
 
             {/* Alumnos */}
             <Route path="/alumnos/create" component={AlumnoForm}></Route>
+            <Route path="/alumnos/:id/asistencia/:curso_id" component={AlumnoAsistenciaListado}></Route>
             <Route path="/alumnos/:id/inscribir" component={AlumnoCursoForm}></Route>
             <Route path="/alumnos/:id/edit" component={AlumnoForm}></Route>
             <Route path="/alumnos/:id/" component={AlumnoDetail}></Route>
@@ -57,6 +60,7 @@ export default function App() {
 
             {/* Equipos */}
             <Route path="/cursos/create/" component={CursoForm}></Route>
+            <Route path="/cursos/:id/alumnos" component={CursoAlumnoListado}></Route>
             <Route path="/cursos/:id/inscribir" component={CursoAlumnoForm}></Route>
             <Route path="/cursos/:id/edit/" component={CursoForm}></Route>
             <Route path="/cursos/:id/" component={CursoDetail}></Route>

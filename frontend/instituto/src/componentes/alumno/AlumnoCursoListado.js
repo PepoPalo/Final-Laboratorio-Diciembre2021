@@ -18,8 +18,8 @@ export default function AlumnoCursoListado() {
     }
   
   
-    function borrar() {
-      axios.put(`http://localhost:5000/AlumnoMateria/baja/alumno/${id}`)
+    function borrar(id_curso) {
+      axios.put(`http://localhost:5000/AlumnoMateria/baja/alumno/${id}/${id_curso}`)
         .then((response) => {
             alert("Dado de baja del curso")
             history.push(`/alumnos/${id}`)
@@ -62,6 +62,7 @@ export default function AlumnoCursoListado() {
                                     <td className="text-center">{curso.nombre}</td>
                                     <td>&nbsp;</td>
                                     <td className="text-center">
+                                        <Link to={"/alumnos/"+id+"/asistencia/"+curso.id} className="btn btn-outline-secondary mr-2">Asistencia</Link>
                                         <button className="btn btn-outline-danger mr-2" onClick={() => borrar(curso.id)}>Dar Baja</button>
                                     </td>
                                 </tr>
@@ -71,7 +72,7 @@ export default function AlumnoCursoListado() {
                         {lista.length === 0 && (
                             <tr>
                             <td colSpan="3">
-                                <h2>No hay datos</h2>
+                                <h2>No hay cursos</h2>
                             </td>
                             </tr>
                         )}
